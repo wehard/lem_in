@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/13 13:48:25 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/13 15:17:48 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ t_env	*init_env(void)
 
 	if (!(env= malloc(sizeof(t_env))))
 		ft_panic("init_env: ERROR");
-
+	env->num_ants = -1;
+	//env->rooms = NULL;
+	//env->start = NULL;
+	//env->end = NULL;
 	return (env);
 }
 
@@ -69,13 +72,46 @@ void	read_room(t_env *env, char *line)
 		env->start = room;
 	else if (is_end)
 		env->end = room;
-	ft_printf("room: %s\n", line);
+	//ft_printf("room: %s\n", line);
+}
+
+t_room	*get_room(t_list *rooms, char *name)
+{
+	t_room *cur;
+	if (!rooms)
+		ft_panic("get_room: null");
+	while (rooms)
+	{
+		cur = (t_room*)rooms->content;
+		if (ft_strcmp(cur->name, name) == 0)
+			return (cur);
+		rooms = rooms->next;
+	}
+	return (NULL);
 }
 
 void	read_link(t_env *env, char *line)
 {
-	env = (void*)0;
-	ft_printf("link: %s\n", line);
+	char *token;
+	t_room *r1;
+	t_room *r2;
+	//ft_printf("line: %s\n", line);
+	token = ft_strtok(line, "-");
+	//ft_printf("token: %s\n", token);
+	r1 = get_room(env->rooms, token);
+	token = ft_strtok(NULL, "-");
+	//ft_printf("token: %s\n", token);
+	r2 = get_room(env->rooms, token);
+	ft_lstadd(&r1->links, ft_lstnew((void*)r2, sizeof(t_room)));
+	ft_lstadd(&r2->links, ft_lstnew((void*)r1, sizeof(t_room)));
+}
+
+void	print_link(t_list *l)
+{
+	t_room *r;
+
+	r = (t_room*)l->content;
+	ft_printf("[%s]", r->name);
 }
 
 void	print_room(t_list *l)
@@ -84,6 +120,9 @@ void	print_room(t_list *l)
 
 	r = (t_room*)l->content;
 	ft_printf("room: %s (%.2f, %.2f)\n", r->name, r->coord.x, r->coord.y);
+	ft_printf("%10s", "links: ");
+	ft_lstiter(r->links, print_link);
+	ft_printf("\n");
 }
 
 int main(void)
@@ -95,16 +134,18 @@ int main(void)
 
 	while (ft_get_next_line(0, &line))
 	{
-
-		if (ft_strncmp(line, "##", 2) == 0)
+		if (env->num_ants < 0)
+			env->num_ants = ft_atoi(line);
+		else if (ft_strncmp(line, "##", 2) == 0)
 			read_room(env, line);
 		else if (ft_strncmp(line, "#", 1) == 0)
 			ft_printf("comment: %s\n", line);
-		else if (ft_strncmp(line + 1, "-", 1) == 0)
+		else if (ft_strchr(line, '-'))
 			read_link(env, line);
 		else
 			read_room(env, line);
 		free(line);
 	}
-	ft_lstiter(env->rooms, print_room);
+	//ft_printf("read rooms and links\n");
+	//ft_lstiter(env->rooms, print_room);
 }

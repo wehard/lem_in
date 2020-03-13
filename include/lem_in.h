@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/13 13:43:37 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/13 14:56:47 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_link
 
 typedef struct	s_env
 {
+	int			num_ants;
 	t_room		*start;
 	t_room		*end;
 	t_list		*rooms;
