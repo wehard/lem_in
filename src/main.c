@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/13 15:17:48 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/13 15:38:59 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_room *new_room(char *name, t_vec2 coord)
 	r->name = ft_strcpy(r->name, name);
 	r->coord = coord;
 	r->links = NULL;
+	r->occupied = 0;
 	return (r);
 }
 
@@ -51,7 +52,6 @@ void	read_room(t_env *env, char *line)
 	int		is_start;
 	int		is_end;
 	t_room *room;
-	char	**split;
 
 	is_start = 0;
 	is_end = 0;
@@ -65,14 +65,12 @@ void	read_room(t_env *env, char *line)
 		if (ft_strncmp(line, "#", 1) == 0)
 			ft_panic("read_room: ERROR");
 	}
-	split = ft_strsplit(line, ' ');
-	room = new_room(split[0], ft_make_vec2(ft_atoi(split[1]), ft_atoi(split[2])));
+	room = new_room(ft_strtok(line, " "), ft_make_vec2(ft_atoi(ft_strtok(NULL, " ")), ft_atoi(ft_strtok(NULL, " "))));
 	ft_lstadd(&env->rooms, ft_lstnew(room, sizeof(t_room)));
 	if (is_start)
 		env->start = room;
 	else if (is_end)
 		env->end = room;
-	//ft_printf("room: %s\n", line);
 }
 
 t_room	*get_room(t_list *rooms, char *name)
@@ -92,18 +90,13 @@ t_room	*get_room(t_list *rooms, char *name)
 
 void	read_link(t_env *env, char *line)
 {
-	char *token;
 	t_room *r1;
 	t_room *r2;
-	//ft_printf("line: %s\n", line);
-	token = ft_strtok(line, "-");
-	//ft_printf("token: %s\n", token);
-	r1 = get_room(env->rooms, token);
-	token = ft_strtok(NULL, "-");
-	//ft_printf("token: %s\n", token);
-	r2 = get_room(env->rooms, token);
-	ft_lstadd(&r1->links, ft_lstnew((void*)r2, sizeof(t_room)));
-	ft_lstadd(&r2->links, ft_lstnew((void*)r1, sizeof(t_room)));
+
+	r1 = get_room(env->rooms, ft_strtok(line, "-"));
+	r2 = get_room(env->rooms, ft_strtok(NULL, "-"));
+	ft_lstadd(&r1->links, ft_lstnew((void*)r2, sizeof(t_room*)));
+	ft_lstadd(&r2->links, ft_lstnew((void*)r1, sizeof(t_room*)));
 }
 
 void	print_link(t_list *l)
@@ -138,14 +131,14 @@ int main(void)
 			env->num_ants = ft_atoi(line);
 		else if (ft_strncmp(line, "##", 2) == 0)
 			read_room(env, line);
-		else if (ft_strncmp(line, "#", 1) == 0)
-			ft_printf("comment: %s\n", line);
+		else if (ft_strncmp(line, "#", 1) == 0);
+			//ft_printf("comment: %s\n", line);
 		else if (ft_strchr(line, '-'))
 			read_link(env, line);
 		else
 			read_room(env, line);
 		free(line);
 	}
-	//ft_printf("read rooms and links\n");
-	//ft_lstiter(env->rooms, print_room);
+	ft_printf("num_ants: %d\n", env->num_ants);
+	ft_lstiter(env->rooms, print_room);
 }
