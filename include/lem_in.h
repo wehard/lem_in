@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/13 17:59:56 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/14 11:41:00 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,18 @@ typedef struct	s_env
 	t_list		*rooms;
 	t_list		*links;
 }				t_env;
+
+t_env			*init_env(void);
+void			read_env(t_env *env);
+void			ft_panic(char *err);
+
+t_room			*new_room(char *name, t_vec2 coord);
+void			read_room(t_env *env, char *line);
+t_room			*get_room(t_list *rooms, char *name);
+void			print_room(t_list *l);
+
+t_link			*new_link(t_room *r1, t_room *r2);
+void			read_link(t_env *env, char *line);
+void			print_link(t_list *l);
 
 #endif

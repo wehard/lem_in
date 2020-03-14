@@ -6,7 +6,7 @@
 #    By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 13:58:13 by wkorande          #+#    #+#              #
-#    Updated: 2020/03/13 13:38:03 by wkorande         ###   ########.fr        #
+#    Updated: 2020/03/14 11:38:36 by wkorande         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,10 @@ NAME = lem-in
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC = main.c
+SRC = main.c\
+	room.c\
+	link.c\
+	env.c
 
 SRCDIR = src
 
