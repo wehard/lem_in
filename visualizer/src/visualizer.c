@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/14 12:53:15 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/14 12:59:16 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,20 @@
 int main(void)
 {
 	SDL_Window *win;
+	SDL_Renderer *renderer;
 
 	t_env *env;
 
 	env = init_env();
 	read_env(env);
-	ft_printf("%d\n", env->num_ants);
+	ft_printf("ants: %d\n", env->num_ants);
+	ft_printf("start: %s %.2f %.2f\n", env->start->name, env->start->coord.x, env->start->coord.y);
+	ft_printf("end: %s %.2f %.2f\n", env->end->name,  env->end->coord.x, env->end->coord.y);
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		ft_printf("error initializing SDL: %s\n", SDL_GetError());
 	win = SDL_CreateWindow("lem_in", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 1000, 0);
+	renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	int quit = 0;
 	while (!quit)
 	{
@@ -45,6 +49,7 @@ int main(void)
 		}
 	}
 	SDL_DestroyWindow(win);
+	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 	return (0);
 }
