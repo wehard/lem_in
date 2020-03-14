@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/14 11:27:19 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/14 12:50:00 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	read_room(t_env *env, char *line)
 	int		is_start;
 	int		is_end;
 	t_room *room;
+	char	**split;
 
 	is_start = 0;
 	is_end = 0;
@@ -64,10 +65,11 @@ void	read_room(t_env *env, char *line)
 		if (ft_strncmp(line, "#", 1) == 0)
 			ft_panic("read_room: ERROR");
 	}
-	room = new_room(ft_strtok(line, " "), ft_make_vec2(ft_atoi(ft_strtok(NULL, " ")), ft_atoi(ft_strtok(NULL, " "))));
+	split = ft_strsplit(line, ' ');
+	room = new_room(split[0], ft_make_vec2(ft_atoi(split[1]), ft_atoi(split[2])));
 	room->is_start = is_start;
 	room->is_end = is_end;
-	ft_lstadd(&env->rooms, ft_lstnew(room, sizeof(t_room)));
+	ft_lstappend(&env->rooms, ft_lstnew(room, sizeof(t_room)));
 	if (is_start)
 		env->start = room;
 	else if (is_end)

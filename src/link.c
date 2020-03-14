@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:27:43 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/14 11:32:30 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/14 12:51:46 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ void	read_link(t_env *env, char *line)
 {
 	t_room *r1;
 	t_room *r2;
+	char	**split;
 
-	r1 = get_room(env->rooms, ft_strtok(line, "-"));
-	r2 = get_room(env->rooms, ft_strtok(NULL, "-"));
-	ft_lstadd(&r1->links, ft_lstnew((void*)r2, sizeof(t_room*)));
-	ft_lstadd(&r2->links, ft_lstnew((void*)r1, sizeof(t_room*)));
-	ft_lstadd(&env->links, ft_lstnew((void*)new_link(r1, r2), sizeof(t_link)));
+	split = ft_strsplit(line, '-');
+	r1 = get_room(env->rooms, split[0]);
+	r2 = get_room(env->rooms, split[1]);
+	ft_lstappend(&r1->links, ft_lstnew((void*)r2, sizeof(t_room*)));
+	ft_lstappend(&r2->links, ft_lstnew((void*)r1, sizeof(t_room*)));
+	ft_lstappend(&env->links, ft_lstnew((void*)new_link(r1, r2), sizeof(t_link)));
 }
 
 void	print_link(t_list *l)

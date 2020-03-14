@@ -6,11 +6,12 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/14 11:41:22 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/14 12:32:40 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "ft_printf.h"
 #include "ft_get_next_line.h"
 
 t_env	*init_env(void)
@@ -31,7 +32,7 @@ void	read_env(t_env *env)
 {
 	char *line;
 
-	while (ft_get_next_line(0, &line))
+	while (ft_get_next_line(0, &line) == 1)
 	{
 		if (env->num_ants < 0)
 			env->num_ants = ft_atoi(line);
@@ -45,4 +46,10 @@ void	read_env(t_env *env)
 			read_room(env, line);
 		free(line);
 	}
+}
+
+void	ft_panic(char *err)
+{
+	ft_printf("panic: %s\n", err);
+	exit(EXIT_FAILURE);
 }

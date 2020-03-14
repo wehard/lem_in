@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/14 11:40:52 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/14 12:34:48 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 #include "ft_get_next_line.h"
 #include "ft_printf.h"
 
-void	ft_panic(char *err)
-{
-	ft_printf("panic: %s\n", err);
-	exit(EXIT_FAILURE);
-}
+
 
 /*
 void	print_links(t_list *l)
