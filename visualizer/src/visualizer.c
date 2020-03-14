@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/14 12:59:16 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/14 13:55:20 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,45 @@
 #include "SDL2/SDL.h"
 #include "ft_printf.h"
 #include "ft_get_next_line.h"
+
+void draw_rooms(t_list *rooms, SDL_Renderer *renderer)
+{
+	t_list *cur;
+	int zoom;
+	int size;
+
+	size = 20;
+	zoom = 30;
+	cur = rooms;
+	while (cur)
+	{
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		t_room r = *(t_room*)cur->content;
+		SDL_Rect rect;
+		rect.x = ((int)r.coord.x  * zoom) - (size / 2);
+		rect.y = ((int)r.coord.y  * zoom) - (size / 2);
+		rect.w = size;
+		rect.h = size;
+		SDL_RenderFillRect(renderer, &rect);
+		cur = cur->next;
+	}
+}
+
+void draw_links(t_list *links, SDL_Renderer *renderer)
+{
+	t_list *cur;
+	int zoom;
+
+	zoom = 30;
+	cur = links;
+	while (cur)
+	{
+		SDL_SetRenderDrawColor(renderer, 127, 127, 255, 255);
+		t_link l = *(t_link*)cur->content;
+		SDL_RenderDrawLine(renderer, (int)l.r1->coord.x * zoom, (int)l.r1->coord.y * zoom, (int)l.r2->coord.x * zoom, (int)l.r2->coord.y * zoom);
+		cur = cur->next;
+	}
+}
 
 int main(void)
 {
@@ -47,6 +86,9 @@ int main(void)
 					quit = 1;
 			}
 		}
+		draw_links(env->links, renderer);
+		draw_rooms(env->rooms, renderer);
+		SDL_RenderPresent(renderer);
 	}
 	SDL_DestroyWindow(win);
 	SDL_DestroyRenderer(renderer);
