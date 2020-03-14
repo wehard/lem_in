@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/14 16:50:30 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/14 19:10:50 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,20 @@ void draw_rooms(t_list *rooms, double zoom, SDL_Renderer *renderer)
 	{
 		t_room r = *(t_room*)cur->content;
 		if (r.is_start)
+		{
+			size *= 2;
 			SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+		}
 		else if (r.is_end)
+		{
+			size *= 2;
 			SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+		}
 		else
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		{
+			size = 20;
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		}
 		SDL_Rect rect;
 		rect.x = ((int)r.coord.x  * zoom) - (size / 2);
 		rect.y = ((int)r.coord.y  * zoom) - (size / 2);
@@ -48,7 +57,7 @@ void draw_links(t_list *links, double zoom, SDL_Renderer *renderer)
 	cur = links;
 	while (cur)
 	{
-		SDL_SetRenderDrawColor(renderer, 127, 127, 255, 255);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		t_link l = *(t_link*)cur->content;
 		SDL_RenderDrawLine(renderer, (int)l.r1->coord.x * zoom, (int)l.r1->coord.y * zoom, (int)l.r2->coord.x * zoom, (int)l.r2->coord.y * zoom);
 		cur = cur->next;
@@ -71,7 +80,7 @@ int main(void)
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		ft_printf("error initializing SDL: %s\n", SDL_GetError());
-	win = SDL_CreateWindow("lem_in", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 1000, 0);
+	win = SDL_CreateWindow("lem_in", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, 0);
 	renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	int quit = 0;
 	zoom = 50;
@@ -96,7 +105,7 @@ int main(void)
 					zoom *= 0.9;
 			}
 		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		SDL_RenderClear(renderer);
 		draw_links(env->links, zoom, renderer);
 		draw_rooms(env->rooms, zoom, renderer);
