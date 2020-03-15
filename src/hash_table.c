@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 12:28:09 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/15 14:02:48 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/15 14:18:39 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,40 @@ char			*ht_get(t_ht *ht, const char *key)
 		cur = cur->next;
 	}
 	return (NULL);
+}
+
+void			ht_del(t_ht *ht, const char *key)
+{
+	int				i;
+	unsigned int	pos;
+	t_ht_entry		*cur;
+	t_ht_entry		*prev;
+
+	pos = ht_hash(ht, key);
+	cur = ht->entries[pos];
+	if (!cur)
+		return ;
+	i = 0;
+	while (cur)
+	{
+		if (ft_strcmp(cur->key, key) == 0)
+		{
+			if (i == 0 && !cur->next)
+				ht->entries[pos] = NULL;
+			if (i == 0 && cur->next)
+				ht->entries[pos] = cur->next;
+			if (i != 0 && !cur->next)
+				prev->next = NULL;
+			if (i != 0 && cur->next)
+				prev->next = cur->next;
+			free(cur->key);
+			free(cur->value);
+			free(cur);
+		}
+		prev = cur;
+		cur = prev->next;
+		i++;
+	}
 }
 
 void print_ht(t_ht *ht)
