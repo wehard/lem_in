@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 12:28:09 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/15 13:10:42 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/15 13:50:59 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 static unsigned int	ht_hash(t_ht *ht, const char *key)
 {
 	unsigned long	value;
-	unsigned int	i;
+	int				i;
 	int				key_len;
 
 	key_len = ft_strlen(key);
 	value = 0;
 	i = 0;
 	while (i < key_len)
-		value = value * 37 * key[i++];
-
+		value = value * 37 + key[i++];
 	value = value % ht->size;
+	return (value);
 }
 
 static t_ht_entry	*ht_make_pair(const char *key, const char *value)
@@ -45,19 +45,22 @@ static t_ht_entry	*ht_make_pair(const char *key, const char *value)
 	return (entry);
 }
 
-t_ht				*ht_create(uintmax_t size)
+t_ht				*ht_create(unsigned int size)
 {
-	t_ht	*ht;
-	int		i;
+	t_ht			*ht;
+	unsigned int	i;
 
 	if (!(ht = (t_ht*)malloc(sizeof(t_ht))))
 		return (NULL);
 	ht->size = size;
-	if (!(ht->entries = (t_ht_entry*)malloc(sizeof(t_ht_entry*) * size)))
+	if (!(ht->entries = (t_ht_entry**)malloc(sizeof(t_ht_entry*) * size)))
 		return (NULL);
 	i = 0;
 	while (i < ht->size)
-		ht->entries[i++] = NULL;
+	{
+		ht->entries[i] = NULL;
+		i++;
+	}
 	return (ht);
 }
 
@@ -80,7 +83,7 @@ void				ht_set(t_ht *ht, const char *key, const char *value)
 		{
 			free(cur->value);
 			if (!(cur->value = (char*)malloc(sizeof(char) * ft_strlen(value) + 1)))
-				return (NULL);
+				return ;
 			ft_strcpy(cur->value, value);
 			return ;
 		}
