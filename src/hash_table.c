@@ -6,12 +6,13 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 12:28:09 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/15 13:50:59 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/15 14:02:48 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hash_table.h"
 #include "libft.h"
+#include "ft_printf.h"
 #include <stdlib.h>
 
 static unsigned int	ht_hash(t_ht *ht, const char *key)
@@ -109,4 +110,30 @@ char			*ht_get(t_ht *ht, const char *key)
 		cur = cur->next;
 	}
 	return (NULL);
+}
+
+void print_ht(t_ht *ht)
+{
+	unsigned int i;
+
+	i = 0;
+	while (i < ht->size)
+	{
+		t_ht_entry *entry = ht->entries[i];
+		if (entry == NULL) {
+			i++;
+			continue;
+		}
+		ft_printf("pos [%3d]: ", i);
+		while(1)
+		{
+			ft_printf("%s:%s ", entry->key, entry->value);
+			if (entry->next == NULL) {
+				break;
+			}
+			entry = entry->next;
+		}
+		ft_printf("\n");
+		i++;
+	}
 }

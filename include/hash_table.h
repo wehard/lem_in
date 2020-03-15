@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 12:28:44 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/15 13:29:46 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/15 14:01:12 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ typedef struct	s_ht
 t_ht			*ht_create(unsigned int size);
 void			ht_set(t_ht *ht, const char *key, const char *value);
 char			*ht_get(t_ht *ht, const char *key);
+void			print_ht(t_ht *ht);
 
 #endif
