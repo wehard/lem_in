@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/16 10:47:53 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 19:23:19 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int main(void)
 {
-	t_env *env;
+	t_lem_env *env;
 
 	env = init_env();
 	read_env(env);
@@ -25,15 +25,15 @@ int main(void)
 	ft_lstiter(env->rooms, print_room);
 	ft_lstiter(env->links, print_link);
 
-	t_ht *ht;
+	// t_ht *ht;
 
-	ht = ht_create(15);
-	ht_set(ht, "one", "dog");
-	ht_set(ht, "two", "cat");
-	ht_set(ht, "three", "bird");
-	ht_set(ht, "four", "snake");
-	ht_set(ht, "world", "snake");
+	// ht = ht_create(15);
+	// ht_set(ht, "one", "dog");
+	// ht_set(ht, "two", "cat");
+	// ht_set(ht, "three", "bird");
+	// ht_set(ht, "four", "snake");
+	// ht_set(ht, "world", "snake");
 	//ht_del(ht, "four");
 
-	print_ht(ht);
+	//print_ht(ht);
 }

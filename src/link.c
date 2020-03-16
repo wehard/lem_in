@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:27:43 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/14 12:51:46 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 19:03:52 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_link	*new_link(t_room *r1, t_room *r2)
 	return (link);
 }
 
-void	read_link(t_env *env, char *line)
+void	read_link(t_lem_env *env, char *line)
 {
 	t_room *r1;
 	t_room *r2;

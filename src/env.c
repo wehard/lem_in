@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/14 12:32:40 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 19:03:52 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "ft_printf.h"
 #include "ft_get_next_line.h"
 
-t_env	*init_env(void)
+t_lem_env	*init_env(void)
 {
-	t_env *env;
+	t_lem_env *env;
 
-	if (!(env= malloc(sizeof(t_env))))
+	if (!(env= malloc(sizeof(t_lem_env))))
 		ft_panic("init_env: ERROR");
 	env->num_ants = -1;
 	env->rooms = NULL;
@@ -28,7 +28,7 @@ t_env	*init_env(void)
 	return (env);
 }
 
-void	read_env(t_env *env)
+void	read_env(t_lem_env *env)
 {
 	char *line;
 

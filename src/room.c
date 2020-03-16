@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/14 12:50:00 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 19:03:52 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_room	*get_room(t_list *rooms, char *name)
 	return (NULL);
 }
 
-void	read_room(t_env *env, char *line)
+void	read_room(t_lem_env *env, char *line)
 {
 	int		is_start;
 	int		is_end;
