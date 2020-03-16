@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/15 14:19:00 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 10:47:53 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ int main(void)
 
 	t_ht *ht;
 
-	ht = ht_create(20);
+	ht = ht_create(15);
 	ht_set(ht, "one", "dog");
 	ht_set(ht, "two", "cat");
 	ht_set(ht, "three", "bird");
 	ht_set(ht, "four", "snake");
 	ht_set(ht, "world", "snake");
-	ht_set(ht, "world", "hello");
-	ht_del(ht, "four");
+	//ht_del(ht, "four");
 
 	print_ht(ht);
 }

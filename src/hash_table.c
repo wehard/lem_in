@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 12:28:09 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/15 14:18:39 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 10:49:23 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void print_ht(t_ht *ht)
 			i++;
 			continue;
 		}
-		ft_printf("pos [%3d]: ", i);
+		ft_printf("[%3d]: ", i);
 		while(1)
 		{
 			ft_printf("%s:%s ", entry->key, entry->value);
