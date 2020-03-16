@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/16 19:03:52 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 19:34:28 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_lem_env	*init_env(void)
 		ft_panic("init_env: ERROR");
 	env->num_ants = -1;
 	env->rooms = NULL;
+	env->num_rooms = 0;
 	env->start = NULL;
 	env->end = NULL;
 	env->links = NULL;

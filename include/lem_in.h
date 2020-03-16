@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/16 19:03:47 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 19:33:53 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	s_lem_env
 	t_room		*start;
 	t_room		*end;
 	t_list		*rooms;
+	int			num_rooms;
 	t_list		*links;
 }				t_lem_env;
 

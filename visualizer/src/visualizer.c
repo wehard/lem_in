@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/16 19:26:26 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 20:44:02 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "SDL2/SDL.h"
 #include "ft_printf.h"
 #include "ft_get_next_line.h"
+#include <stdlib.h>
+#include <time.h>
 
 void draw_rooms(t_list *rooms, double zoom, SDL_Renderer *renderer)
 {
@@ -76,6 +78,7 @@ t_ant *create_ants(t_lem_env *env)
 	{
 		ants[i].pos = env->start->coord;
 		ants[i].target = env->end->coord;
+		ants[i].target_room = env->end;
 		i++;
 	}
 	return (ants);
@@ -111,8 +114,37 @@ void	update_ants(t_ant *ants, t_lem_env *env, double delta_time)
 	i = 0;
 	while (i < env->num_ants)
 	{
-		dir = ft_normalize_vec2(ft_sub_vec2(ants[i].target, ants[i].pos));
+		t_vec2 target = ants[i].target_room->coord;
+		dir = ft_normalize_vec2(ft_sub_vec2(target, ants[i].pos));
 		ants[i].pos = ft_add_vec2(ants[i].pos, ft_mul_vec2(dir, delta_time * speed));
+		i++;
+	}
+}
+
+void	update_turn(t_ant *ants, t_lem_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (i < env->num_ants)
+	{
+		t_list *lst = ants[i].target_room->links;
+		if (!lst)
+		{
+			ft_printf("target links null\n");
+			i++;
+			continue;
+		}
+		t_list *cur = ft_lstat(ants[i].target_room->links, 0);
+		if (!cur)
+		{
+			ft_printf("cur null\n");
+			i++;
+			continue;
+		}
+		//ants[i].target = r.coord;
+		ants[i].target_room = (t_room*)cur->content;
+		//ft_printf("ant %d target: %.2f %.2f\n", i, ants[i].target.x, ants[i].target.y);
 		i++;
 	}
 }
@@ -130,7 +162,7 @@ int main(void)
 	uint64_t last = 0;
 	double delta_time = 0;
 
-
+	srand(time(NULL));
 
 	env = init_env();
 	read_env(env);
@@ -160,6 +192,8 @@ int main(void)
 				ft_printf("key: %s %d\n", SDL_GetKeyName(event.key.keysym.sym), event.key.keysym.scancode);
 				if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 					quit = 1;
+				if (event.key.keysym.scancode == SDL_SCANCODE_SPACE)
+					update_turn(ants, env);
 			}
 			else if (event.type == SDL_MOUSEWHEEL)
 			{
