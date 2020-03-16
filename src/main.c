@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/16 19:23:19 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 21:13:23 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,8 @@ int main(void)
 	//ht_del(ht, "four");
 
 	//print_ht(ht);
+	//ft_printf("\nstart links\n");
+	//t_room *r = (t_room*)ft_lstat(env->rooms, 1)->content;
+	//ft_lstiter(r->links, print_link);
+
 }

@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/16 20:44:02 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/16 21:19:09 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,22 +128,11 @@ void	update_turn(t_ant *ants, t_lem_env *env)
 	i = 0;
 	while (i < env->num_ants)
 	{
-		t_list *lst = ants[i].target_room->links;
-		if (!lst)
-		{
-			ft_printf("target links null\n");
-			i++;
-			continue;
-		}
-		t_list *cur = ft_lstat(ants[i].target_room->links, 0);
-		if (!cur)
-		{
-			ft_printf("cur null\n");
-			i++;
-			continue;
-		}
-		//ants[i].target = r.coord;
-		ants[i].target_room = (t_room*)cur->content;
+		//ft_printf("\nstart links\n");
+		//t_room *r = (t_room*)(ft_lstat(ants[i].target_room->links, 0)->content);
+		ft_printf("r: %s\n", ants[i].target_room->name);
+		//ft_lstiter(r->links, print_link);
+		//ants[i].target_room = r;
 		//ft_printf("ant %d target: %.2f %.2f\n", i, ants[i].target.x, ants[i].target.y);
 		i++;
 	}
