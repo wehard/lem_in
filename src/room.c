@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 00:22:57 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 00:42:51 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_room *new_room(char *name, t_vec2 coord)
 	r->coord = coord;
 	r->links = malloc(sizeof(t_list*));
 	r->occupied = 0;
-	r->hcost = 0;
+	r->hcost = -1;
 	r->visited = 0;
 	return (r);
 }

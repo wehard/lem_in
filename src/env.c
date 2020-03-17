@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 00:20:04 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 01:17:29 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_ant *create_ants(t_lem_env *env)
 	i = 0;
 	while (i < env->num_ants)
 	{
+		ants[i].id = i + 1;
+		ants[i].pi = 0;
 		ants[i].pos = env->start->coord;
 		ants[i].cur_room = env->start;
 		ants[i].target_room = env->start;

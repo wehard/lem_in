@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 00:08:24 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 01:27:37 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,33 @@
 #include "ft_printf.h"
 #include "hash_table.h"
 #include "queue.h"
+#include "debug.h"
+
+int move_ant(t_ant *ant, t_room *room)
+{
+	if (ant->cur_room->type == END)
+	{
+		debug_log("move_ant: ant is in end room\n");
+		return (0);
+	}
+	if (room->type != END && room->occupied)
+	{
+		debug_log("move_ant: room occupied!\n");
+		return (0);
+	}
+	ant->cur_room->occupied = 0;
+	ant->cur_room = room;
+	if (room->type == END)
+		ant->cur_room->occupied++;
+	else
+		ant->cur_room->occupied = 1;
+	ft_printf("L%d-%s ", ant->id, ant->cur_room->name);
+	return (1);
+}
 
 int main(void)
 {
+	init_logger("debug.log", "a+");
 	t_lem_env *env;
 
 	env = init_env();
@@ -27,43 +51,30 @@ int main(void)
 	ft_printf("%d\n", env->num_ants);
 	ft_lstiter(*env->rooms, print_room);
 	ft_lstiter(*env->links, print_link);
+	ft_printf("\n");
 
-	// t_ht *ht;
-
-	// ht = ht_create(15);
-	// ht_set(ht, "one", "dog");
-	// ht_set(ht, "two", "cat");
-	// ht_set(ht, "three", "bird");
-	// ht_set(ht, "four", "snake");
-	// ht_set(ht, "world", "snake");
-	//ht_del(ht, "four");
-
-	//print_ht(ht);
-	// t_room *r = (t_room*)ft_lstat(*env->rooms, 6)->content;
-	// ft_printf("\n%s\n", r->name);
-	// ft_lstiter(*r->links, print_room);
-
-	// ft_printf("start: %p\n", env->start);
-	// t_list *tmp = *env->rooms;
-	// while (tmp)
+	t_path *p = find_path(env, env->start, env->end);
+	// if (p != NULL)
 	// {
-	// 	t_room *rt = (t_room*)tmp->content;
-	// 	if (ft_strcmp(rt->name, "st") == 0)
-	// 		ft_printf("lst start: %p\n", rt);
-	// 	tmp = tmp->next;
+	// 	int i = 0;
+	// 	while (i < p->size)
+	// 	{
+	// 		if (p->rooms[i])
+	// 			ft_printf("%s > ", p->rooms[i]->name);
+	// 		i++;
+	// 	}
+	// 	ft_printf("\n");
 	// }
-
-
-	t_path *p = find_path(env);
-	if (p != NULL)
+	while (env->end->occupied != env->num_ants)
 	{
 		int i = 0;
-		while (i < p->length)
+		while (i < env->num_ants)
 		{
-			if (p->rooms[i])
-				ft_printf("%s > ", p->rooms[i]->name);
+			if (move_ant(&env->ants[i], p->rooms[env->ants[i].pi]))
+				env->ants[i].pi++;
 			i++;
 		}
 		ft_printf("\n");
 	}
+	close_logger();
 }
