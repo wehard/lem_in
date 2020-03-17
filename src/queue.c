@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/17 16:15:48 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 16:27:54 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 00:01:21 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void enqueue(t_queue *q, t_room *item)
 {
 	if (q->rear == q->size - 1)
 	{
-		ft_printf("queue is full\n");
+		// ft_printf("queue is full\n");
 		return;
 	}
 	else
@@ -63,7 +63,7 @@ t_room *dequeue(t_queue *q)
 		q->front++;
 		if (q->front > q->rear)
 		{
-			ft_printf("resetting queue\n");
+			// ft_printf("resetting queue\n");
 			q->front = -1;
 			q->rear = -1;
 		}

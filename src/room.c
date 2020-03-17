@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 19:54:00 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 00:22:57 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ t_room *new_room(char *name, t_vec2 coord)
 
 	if (!(r = malloc(sizeof(t_room))))
 		ft_panic("new_room: ERROR");
-	r->name = ft_strnew(ft_strlen(name));
-	r->name = ft_strcpy(r->name, name);
+	r->type = UNSET;
+	r->name = ft_strdup(name);
 	r->coord = coord;
 	r->links = malloc(sizeof(t_list*));
 	r->occupied = 0;
-	r->is_start = 0;
-	r->is_end = 0;
 	r->hcost = 0;
 	r->visited = 0;
 	return (r);
@@ -81,13 +79,13 @@ void	read_room(t_lem_env *env, char *line)
 	if (ft_strarray_len(split) != 3)
 		ft_panic("read_room: split ERROR");
 	room = new_room(split[0], ft_make_vec2(ft_atoi(split[1]), ft_atoi(split[2])));
-	room->is_start = is_start;
-	room->is_end = is_end;
+	if (is_start)
+		room->type = START;
+	else if (is_end)
+		room->type = END;
+	else
+		room->type = NORMAL;
 	ft_lstappend(env->rooms, ft_lstnew(room, sizeof(t_room)));
-	// if (is_start)
-	// 	env->start = room;
-	// else if (is_end)
-	// 	env->end = room;
 	env->num_rooms++;
 }
 
@@ -96,9 +94,9 @@ void	print_room(t_list *l)
 	t_room *r;
 
 	r = (t_room*)l->content;
-	if (r->is_start)
+	if (r->type == START)
 		ft_printf("##start\n");
-	if (r->is_end)
+	else if (r->type == END)
 		ft_printf("##end\n");
 	ft_printf("%s %d %d\n", r->name, (int)r->coord.x, (int)r->coord.y);
 }

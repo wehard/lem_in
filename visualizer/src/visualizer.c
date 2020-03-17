@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 17:48:10 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 00:08:35 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,6 @@ void draw_links(t_list *links, double zoom, SDL_Renderer *renderer)
 		SDL_RenderDrawLine(renderer, (int)l.r1->coord.x * zoom, (int)l.r1->coord.y * zoom, (int)l.r2->coord.x * zoom, (int)l.r2->coord.y * zoom);
 		cur = cur->next;
 	}
-}
-
-t_ant *create_ants(t_lem_env *env)
-{
-	t_ant	*ants;
-	int		i;
-
-	ants = (t_ant*)malloc(sizeof(t_ant) * env->num_ants);
-	i = 0;
-	while (i < env->num_ants)
-	{
-		ants[i].pos = env->start->coord;
-		ants[i].target_room = env->start;
-		i++;
-	}
-	return (ants);
 }
 
 void	draw_ants(t_ant *ants, double zoom, t_lem_env *env, SDL_Renderer *renderer)

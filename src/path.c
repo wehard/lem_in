@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/17 15:40:38 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 19:56:53 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 00:00:35 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_path *find_path(t_lem_env *lem_env)
 				ht_set(visited, c->name, "1");
 				enqueue(q, c);
 				c->hcost = step;
-				ft_printf("visited: %s cost: %d\n", c->name, c->hcost);
+				// ft_printf("visited: %s cost: %d\n", c->name, c->hcost);
 			}
 			n = n->next;
 		}
@@ -74,7 +74,7 @@ t_path *find_path(t_lem_env *lem_env)
 	t_room *cur_room;
 	cur_room = lem_env->start;
 	p = create_path(cur_room->hcost);
-	ft_printf("pathlen: %d\n", p->length);
+	// ft_printf("pathlen: %d\n", p->length);
 	step = 0;
 	int score = INT32_MAX;
 	while (cur_room != lem_env->end)

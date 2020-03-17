@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 19:12:26 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 00:20:04 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,30 @@ t_lem_env	*init_env(void)
 	if (!(env= malloc(sizeof(t_lem_env))))
 		ft_panic("init_env: ERROR");
 	env->num_ants = -1;
+	env->ants = NULL;
 	env->rooms = malloc(sizeof(t_list*));
 	env->num_rooms = 0;
 	env->start = NULL;
 	env->end = NULL;
 	env->links = malloc(sizeof(t_list*));;
 	return (env);
+}
+
+t_ant *create_ants(t_lem_env *env)
+{
+	t_ant	*ants;
+	int		i;
+
+	ants = (t_ant*)malloc(sizeof(t_ant) * env->num_ants);
+	i = 0;
+	while (i < env->num_ants)
+	{
+		ants[i].pos = env->start->coord;
+		ants[i].cur_room = env->start;
+		ants[i].target_room = env->start;
+		i++;
+	}
+	return (ants);
 }
 
 static void set_start_end(t_lem_env *env)
@@ -38,9 +56,9 @@ static void set_start_end(t_lem_env *env)
 	while (cur)
 	{
 		r = (t_room*)cur->content;
-		if (r->is_start)
+		if (r->type == START)
 			env->start = r;
-		if (r->is_end)
+		else if (r->type == END)
 			env->end = r;
 		cur = cur->next;
 	}

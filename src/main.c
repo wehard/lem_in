@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 19:55:41 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 00:08:24 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int main(void)
 
 	env = init_env();
 	read_env(env);
+	env->ants = create_ants(env);
+
 	ft_printf("%d\n", env->num_ants);
 	ft_lstiter(*env->rooms, print_room);
 	ft_lstiter(*env->links, print_link);

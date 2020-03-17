@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 19:53:34 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 00:20:28 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,25 @@
 # include "libft.h"
 # include "vector.h"
 
+// # define START 0
+// # define END 1
+// # define NORMAL 2
+
+typedef enum
+{
+	UNSET,
+	START,
+	END,
+	NORMAL
+}				t_room_type;
+
 typedef struct	s_room
 {
+	t_room_type	type;
 	char		*name;
 	t_vec2		coord;
 	t_list		**links;
 	int			occupied;
-	int			is_start;
-	int			is_end;
 	int			hcost;
 	int			visited;
 }				t_room;
@@ -40,9 +51,17 @@ typedef struct	s_path
 	int			length;
 }				t_path;
 
+typedef struct	s_ant
+{
+	t_vec2		pos;
+	t_room		*target_room;
+	t_room		*cur_room;
+}				t_ant;
+
 typedef struct	s_lem_env
 {
 	int			num_ants;
+	t_ant		*ants;
 	t_room		*start;
 	t_room		*end;
 	t_list		**rooms;
@@ -52,6 +71,7 @@ typedef struct	s_lem_env
 
 t_lem_env			*init_env(void);
 void			read_env(t_lem_env *env);
+t_ant			*create_ants(t_lem_env *env);
 void			ft_panic(char *err);
 
 t_room			*new_room(char *name, t_vec2 coord);
