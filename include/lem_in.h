@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/16 19:33:53 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/17 14:51:48 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct	s_room
 {
 	char		*name;
 	t_vec2		coord;
-	t_list		*links;
+	t_list		**links;
 	int			occupied;
 	int			is_start;
 	int			is_end;
@@ -37,9 +37,9 @@ typedef struct	s_lem_env
 	int			num_ants;
 	t_room		*start;
 	t_room		*end;
-	t_list		*rooms;
+	t_list		**rooms;
 	int			num_rooms;
-	t_list		*links;
+	t_list		**links;
 }				t_lem_env;
 
 t_lem_env			*init_env(void);

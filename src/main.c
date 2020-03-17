@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/16 21:13:23 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/17 14:51:56 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int main(void)
 	env = init_env();
 	read_env(env);
 	ft_printf("%d\n", env->num_ants);
-	ft_lstiter(env->rooms, print_room);
-	ft_lstiter(env->links, print_link);
+	ft_lstiter(*env->rooms, print_room);
+	ft_lstiter(*env->links, print_link);
 
 	// t_ht *ht;
 
@@ -36,8 +36,8 @@ int main(void)
 	//ht_del(ht, "four");
 
 	//print_ht(ht);
-	//ft_printf("\nstart links\n");
-	//t_room *r = (t_room*)ft_lstat(env->rooms, 1)->content;
-	//ft_lstiter(r->links, print_link);
+	// ft_printf("\nstart links\n");
+	//t_room *r = (t_room*)ft_lstat(env->rooms, 0)->content;
+	// ft_lstiter(*env->end->links, print_link);
 
 }

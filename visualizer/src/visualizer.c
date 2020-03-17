@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/16 21:19:09 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/17 15:11:51 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,11 @@ void	update_ants(t_ant *ants, t_lem_env *env, double delta_time)
 	while (i < env->num_ants)
 	{
 		t_vec2 target = ants[i].target_room->coord;
-		dir = ft_normalize_vec2(ft_sub_vec2(target, ants[i].pos));
-		ants[i].pos = ft_add_vec2(ants[i].pos, ft_mul_vec2(dir, delta_time * speed));
+		if (ft_len_vec2(ft_sub_vec2(target, ants[i].pos)) > 0.1)
+		{
+			dir = ft_normalize_vec2(ft_sub_vec2(target, ants[i].pos));
+			ants[i].pos = ft_add_vec2(ants[i].pos, ft_mul_vec2(dir, delta_time * speed));
+		}
 		i++;
 	}
 }
@@ -129,10 +132,11 @@ void	update_turn(t_ant *ants, t_lem_env *env)
 	while (i < env->num_ants)
 	{
 		//ft_printf("\nstart links\n");
-		//t_room *r = (t_room*)(ft_lstat(ants[i].target_room->links, 0)->content);
-		ft_printf("r: %s\n", ants[i].target_room->name);
-		//ft_lstiter(r->links, print_link);
-		//ants[i].target_room = r;
+		t_list *l = ft_lstat(*ants[i].target_room->links, rand() % ft_lstsize(*ants[i].target_room->links));
+		t_room *r = ((t_link*)l->content)->r2;
+		ft_printf("r: %s\n", r->name);
+		ft_lstiter(*r->links, print_link);
+		ants[i].target_room = r;
 		//ft_printf("ant %d target: %.2f %.2f\n", i, ants[i].target.x, ants[i].target.y);
 		i++;
 	}
@@ -155,10 +159,14 @@ int main(void)
 
 	env = init_env();
 	read_env(env);
+	// ft_printf("%d\n", env->num_ants);
+	// ft_lstiter(env->rooms, print_room);
+	// ft_lstiter(env->links, print_link);
+
+
 	ants = create_ants(env);
-	ft_printf("ants: %d\n", env->num_ants);
-	ft_printf("start: %s %.2f %.2f\n", env->start->name, env->start->coord.x, env->start->coord.y);
-	ft_printf("end: %s %.2f %.2f\n", env->end->name,  env->end->coord.x, env->end->coord.y);
+	// ft_printf("start: %s %.2f %.2f\n", env->start->name, env->start->coord.x, env->start->coord.y);
+	// ft_printf("end: %s %.2f %.2f\n", env->end->name,  env->end->coord.x, env->end->coord.y);
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		ft_printf("error initializing SDL: %s\n", SDL_GetError());
@@ -196,8 +204,8 @@ int main(void)
 
 		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		SDL_RenderClear(renderer);
-		draw_links(env->links, zoom, renderer);
-		draw_rooms(env->rooms, zoom, renderer);
+		draw_links(*env->links, zoom, renderer);
+		draw_rooms(*env->rooms, zoom, renderer);
 		draw_ants(ants, zoom, env, renderer);
 		SDL_RenderPresent(renderer);
 	}
