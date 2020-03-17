@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 14:51:56 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/17 19:55:41 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_get_next_line.h"
 #include "ft_printf.h"
 #include "hash_table.h"
+#include "queue.h"
 
 int main(void)
 {
@@ -36,8 +37,31 @@ int main(void)
 	//ht_del(ht, "four");
 
 	//print_ht(ht);
-	// ft_printf("\nstart links\n");
-	//t_room *r = (t_room*)ft_lstat(env->rooms, 0)->content;
-	// ft_lstiter(*env->end->links, print_link);
+	// t_room *r = (t_room*)ft_lstat(*env->rooms, 6)->content;
+	// ft_printf("\n%s\n", r->name);
+	// ft_lstiter(*r->links, print_room);
 
+	// ft_printf("start: %p\n", env->start);
+	// t_list *tmp = *env->rooms;
+	// while (tmp)
+	// {
+	// 	t_room *rt = (t_room*)tmp->content;
+	// 	if (ft_strcmp(rt->name, "st") == 0)
+	// 		ft_printf("lst start: %p\n", rt);
+	// 	tmp = tmp->next;
+	// }
+
+
+	t_path *p = find_path(env);
+	if (p != NULL)
+	{
+		int i = 0;
+		while (i < p->length)
+		{
+			if (p->rooms[i])
+				ft_printf("%s > ", p->rooms[i]->name);
+			i++;
+		}
+		ft_printf("\n");
+	}
 }

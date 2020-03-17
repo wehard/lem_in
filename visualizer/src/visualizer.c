@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 15:11:51 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/17 17:48:10 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void draw_rooms(t_list *rooms, double zoom, SDL_Renderer *renderer)
 		if (r.is_start)
 		{
 			size *= 2;
-			SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+			SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 		}
 		else if (r.is_end)
 		{
 			size *= 2;
-			SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 		}
 		else
 		{
@@ -77,8 +77,7 @@ t_ant *create_ants(t_lem_env *env)
 	while (i < env->num_ants)
 	{
 		ants[i].pos = env->start->coord;
-		ants[i].target = env->end->coord;
-		ants[i].target_room = env->end;
+		ants[i].target_room = env->start;
 		i++;
 	}
 	return (ants);
@@ -110,7 +109,7 @@ void	update_ants(t_ant *ants, t_lem_env *env, double delta_time)
 	t_vec2 dir;
 	int	i;
 
-	speed = 10;
+	speed = 20;
 	i = 0;
 	while (i < env->num_ants)
 	{
@@ -134,10 +133,10 @@ void	update_turn(t_ant *ants, t_lem_env *env)
 		//ft_printf("\nstart links\n");
 		t_list *l = ft_lstat(*ants[i].target_room->links, rand() % ft_lstsize(*ants[i].target_room->links));
 		t_room *r = ((t_link*)l->content)->r2;
-		ft_printf("r: %s\n", r->name);
-		ft_lstiter(*r->links, print_link);
+		//ft_printf("r: %s\n", r->name);
+		//ft_lstiter(*r->links, print_link);
 		ants[i].target_room = r;
-		//ft_printf("ant %d target: %.2f %.2f\n", i, ants[i].target.x, ants[i].target.y);
+		//ft_printf("ant %d target: %.2f %.2f\n", i, ants[i].target_room->coord.x, ants[i].target_room->coord.y);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 14:51:48 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/17 19:53:34 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ typedef struct	s_room
 	int			occupied;
 	int			is_start;
 	int			is_end;
+	int			hcost;
+	int			visited;
 }				t_room;
 
 typedef struct	s_link
@@ -31,6 +33,12 @@ typedef struct	s_link
 	t_room		*r1;
 	t_room		*r2;
 }				t_link;
+
+typedef struct	s_path
+{
+	t_room		**rooms;
+	int			length;
+}				t_path;
 
 typedef struct	s_lem_env
 {
@@ -54,5 +62,7 @@ void			print_room(t_list *l);
 t_link			*new_link(t_room *r1, t_room *r2);
 void			read_link(t_lem_env *env, char *line);
 void			print_link(t_list *l);
+
+t_path			*find_path(t_lem_env *lem_env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 14:36:41 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/17 19:54:00 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_room *new_room(char *name, t_vec2 coord)
 	r->occupied = 0;
 	r->is_start = 0;
 	r->is_end = 0;
+	r->hcost = 0;
+	r->visited = 0;
 	return (r);
 }
 
@@ -82,10 +84,10 @@ void	read_room(t_lem_env *env, char *line)
 	room->is_start = is_start;
 	room->is_end = is_end;
 	ft_lstappend(env->rooms, ft_lstnew(room, sizeof(t_room)));
-	if (is_start)
-		env->start = room;
-	else if (is_end)
-		env->end = room;
+	// if (is_start)
+	// 	env->start = room;
+	// else if (is_end)
+	// 	env->end = room;
 	env->num_rooms++;
 }
 

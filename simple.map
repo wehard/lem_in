@@ -1,0 +1,11 @@
+3
+##start
+st 5 10
+mid1 15 5
+mid2 15 15
+##end
+en 25 10
+st-mid1
+st-mid2
+mid1-en
+mid2-en

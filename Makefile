@@ -6,7 +6,7 @@
 #    By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 13:58:13 by wkorande          #+#    #+#              #
-#    Updated: 2020/03/15 13:25:51 by wkorande         ###   ########.fr        #
+#    Updated: 2020/03/17 17:13:50 by wkorande         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ SRC = main.c\
 	room.c\
 	link.c\
 	env.c\
-	hash_table.c
+	hash_table.c\
+	queue.c\
+	path.c
 
 SRCDIR = src
 

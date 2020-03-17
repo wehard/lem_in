@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 14:53:06 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/17 19:12:26 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,23 @@ t_lem_env	*init_env(void)
 	return (env);
 }
 
+static void set_start_end(t_lem_env *env)
+{
+	t_list *cur;
+	t_room *r;
+
+	cur = *env->rooms;
+	while (cur)
+	{
+		r = (t_room*)cur->content;
+		if (r->is_start)
+			env->start = r;
+		if (r->is_end)
+			env->end = r;
+		cur = cur->next;
+	}
+}
+
 void	read_env(t_lem_env *env)
 {
 	char *line;
@@ -47,6 +64,7 @@ void	read_env(t_lem_env *env)
 			read_room(env, line);
 		free(line);
 	}
+	set_start_end(env);
 }
 
 void	ft_panic(char *err)
