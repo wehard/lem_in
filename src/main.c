@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 11:38:08 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 13:59:49 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int main(void)
 	ft_lstiter(*env->links, print_link);
 	ft_printf("\n");
 
-	t_path *p = find_path(env, env->start, env->end);
+	//t_path *p = find_path(env, env->start, env->end);
 	// if (p != NULL)
 	// {
 	// 	int i = 0;
@@ -70,11 +70,16 @@ int main(void)
 		int i = 0;
 		while (i < env->num_ants)
 		{
-			if (move_ant(&env->ants[i], p->rooms[env->ants[i].pi]))
-				env->ants[i].pi++;
+			t_ant *ant;
+			ant = &env->ants[i];
+			ant->path = find_path(env, ant->cur_room, env->end);
+			if (ant->path)
+				move_ant(ant, path_get_room(ant->path, 0));
 			i++;
 		}
 		ft_printf("\n");
+		if (env->end->occupied == env->num_ants)
+			debug_log("all ants are home!\n");
 	}
 	close_logger();
 }

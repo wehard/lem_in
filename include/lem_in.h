@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 01:16:53 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 12:19:28 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct	s_link
 
 typedef struct	s_path
 {
-	t_room		**rooms;
+	t_list		**rooms;
 	int			size;
 }				t_path;
 
@@ -56,6 +56,7 @@ typedef struct	s_ant
 	int			id;
 	int			pi;
 	t_vec2		pos;
+	t_path		*path;
 	t_room		*target_room;
 	t_room		*cur_room;
 }				t_ant;
@@ -86,5 +87,6 @@ void			read_link(t_lem_env *env, char *line);
 void			print_link(t_list *l);
 
 t_path			*find_path(t_lem_env *lem_env, t_room *start, t_room *end);
-
+t_room			*path_get_room(t_path *p, int i);
+void			path_add_room(t_path *p, t_room *room);
 #endif

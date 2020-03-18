@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/17 15:40:38 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 01:03:16 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 13:57:40 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ft_printf.h"
 #include "queue.h"
 #include "hash_table.h"
+#include "debug.h"
 
 // create a queue Q
 // mark v as visited and put v into Q
@@ -22,21 +23,42 @@
 //     remove the head u of Q
 //     mark and enqueue all (unvisited) neighbours of u
 
-t_path *create_path(int size)
+t_path *path_create()
 {
 	t_path *p;
-	int i;
 
 	p = malloc(sizeof(t_path));
-	p->size = size;
-	p->rooms = malloc(sizeof(t_room*) * size);
-	i = 0;
-	while (i < p->size)
-	{
-		p->rooms[i] = NULL;
-		i++;
-	}
+	p->rooms = malloc(sizeof(t_list*));
+	p->size = 0;
 	return (p);
+}
+
+void	path_add_room(t_path *p, t_room *room)
+{
+	t_list *l;
+
+	l = malloc(sizeof(t_list));
+	l->content = room;
+	l->content_size = sizeof(t_room*);
+	ft_lstappend(p->rooms, l);
+	p->size++;
+}
+
+t_room *path_get_room(t_path *p, int i)
+{
+	t_list *cur;
+	int c;
+
+	c = 0;
+	cur = *p->rooms;
+	while (cur)
+	{
+		if (c == i)
+			return ((t_room*)cur->content);
+		c++;
+		cur = cur->next;
+	}
+	return (NULL);
 }
 
 void	bfs_calc_cost(t_lem_env *lem_env, t_room *from)
@@ -78,13 +100,15 @@ t_path *find_path(t_lem_env *lem_env, t_room *start, t_room *end)
 	t_room	*temp;
 	int		lowest_cost;
 	int		i;
+	int		blocked;
+
+	blocked = 0;
 
 	if (start->hcost == -1)
 		bfs_calc_cost(lem_env, end);
 
+	path = path_create();
 	cur_room = start;
-	path = create_path(cur_room->hcost);
-	path->size = 0;
 	i = 0;
 	lowest_cost = INT32_MAX;
 	while (cur_room != end)
@@ -93,15 +117,19 @@ t_path *find_path(t_lem_env *lem_env, t_room *start, t_room *end)
 		while (cur_link)
 		{
 			temp = ((t_link*)cur_link->content)->r2;
-			if (temp->hcost < lowest_cost)
+			if (temp->type != END && temp->occupied)
+				blocked = 1;
+			else if (temp->hcost < lowest_cost)
 			{
+				blocked = 0;
 				lowest_cost = temp->hcost;
 				cur_room = temp;
 			}
 			cur_link = cur_link->next;
 		}
-		path->rooms[i] = cur_room;
-		path->size++;
+		if (blocked)
+			return (NULL);
+		path_add_room(path, cur_room);
 		i++;
 	}
 	return (path);
