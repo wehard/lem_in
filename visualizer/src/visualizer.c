@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 00:08:35 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 02:10:43 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void draw_rooms(t_list *rooms, double zoom, SDL_Renderer *renderer)
 	while (cur)
 	{
 		t_room r = *(t_room*)cur->content;
-		if (r.is_start)
+		if (r.type == START)
 		{
-			size *= 2;
+			size = 30;
 			SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 		}
-		else if (r.is_end)
+		else if (r.type == END)
 		{
-			size *= 2;
+			size = 30;
 			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 		}
 		else
@@ -48,7 +48,7 @@ void draw_rooms(t_list *rooms, double zoom, SDL_Renderer *renderer)
 		rect.y = ((int)r.coord.y  * zoom) - (size / 2);
 		rect.w = size;
 		rect.h = size;
-		SDL_RenderFillRect(renderer, &rect);
+		SDL_RenderDrawRect(renderer, &rect);
 		cur = cur->next;
 	}
 }
@@ -98,11 +98,13 @@ void	update_ants(t_ant *ants, t_lem_env *env, double delta_time)
 	while (i < env->num_ants)
 	{
 		t_vec2 target = ants[i].target_room->coord;
-		if (ft_len_vec2(ft_sub_vec2(target, ants[i].pos)) > 0.1)
+		if (ft_len_vec2(ft_sub_vec2(target, ants[i].pos)) > 0.2)
 		{
 			dir = ft_normalize_vec2(ft_sub_vec2(target, ants[i].pos));
 			ants[i].pos = ft_add_vec2(ants[i].pos, ft_mul_vec2(dir, delta_time * speed));
 		}
+		else
+			ants[i].pos = ants[i].target_room->coord;
 		i++;
 	}
 }
@@ -125,14 +127,28 @@ void	update_turn(t_ant *ants, t_lem_env *env)
 	}
 }
 
+t_vis_env	*init_vis_env(const char *title)
+{
+	t_vis_env *e;
+
+	if (!(e = (t_vis_env*)malloc(sizeof(t_vis_env))))
+		return (NULL);
+	e->zoom = 50;
+
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+		ft_printf("error initializing SDL: %s\n", SDL_GetError());
+	e->win = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, 0);
+	e->renderer = SDL_CreateRenderer(e->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+	return (e);
+}
+
 int main(void)
 {
-	SDL_Window *win;
-	SDL_Renderer *renderer;
 
 	t_ant *ants;
 	t_lem_env *env;
-	double zoom;
+	t_vis_env *v_env;
 
 	uint64_t now = SDL_GetPerformanceCounter();
 	uint64_t last = 0;
@@ -142,6 +158,8 @@ int main(void)
 
 	env = init_env();
 	read_env(env);
+
+	v_env = init_vis_env("lem_in");
 	// ft_printf("%d\n", env->num_ants);
 	// ft_lstiter(env->rooms, print_room);
 	// ft_lstiter(env->links, print_link);
@@ -151,12 +169,8 @@ int main(void)
 	// ft_printf("start: %s %.2f %.2f\n", env->start->name, env->start->coord.x, env->start->coord.y);
 	// ft_printf("end: %s %.2f %.2f\n", env->end->name,  env->end->coord.x, env->end->coord.y);
 
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-		ft_printf("error initializing SDL: %s\n", SDL_GetError());
-	win = SDL_CreateWindow("lem_in", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, 0);
-	renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
 	int quit = 0;
-	zoom = 50;
 	while (!quit)
 	{
 		last = now;
@@ -178,22 +192,22 @@ int main(void)
 			else if (event.type == SDL_MOUSEWHEEL)
 			{
 				if (event.wheel.y > 0)
-					zoom *= 1.1;
+					v_env->zoom *= 1.1;
 				else if (event.wheel.y < 0)
-					zoom *= 0.9;
+					v_env->zoom *= 0.9;
 			}
 		}
 		update_ants(ants, env, delta_time);
 
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-		SDL_RenderClear(renderer);
-		draw_links(*env->links, zoom, renderer);
-		draw_rooms(*env->rooms, zoom, renderer);
-		draw_ants(ants, zoom, env, renderer);
-		SDL_RenderPresent(renderer);
+		SDL_SetRenderDrawColor(v_env->renderer, 255, 255, 255, 255);
+		SDL_RenderClear(v_env->renderer);
+		draw_links(*env->links, v_env->zoom, v_env->renderer);
+		draw_rooms(*env->rooms, v_env->zoom, v_env->renderer);
+		draw_ants(ants, v_env->zoom, env, v_env->renderer);
+		SDL_RenderPresent(v_env->renderer);
 	}
-	SDL_DestroyWindow(win);
-	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(v_env->win);
+	SDL_DestroyRenderer(v_env->renderer);
 	SDL_Quit();
 	return (0);
 }
