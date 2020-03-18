@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/17 15:40:38 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 13:57:40 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 14:02:35 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_path *find_path(t_lem_env *lem_env, t_room *start, t_room *end)
 			}
 			cur_link = cur_link->next;
 		}
-		if (blocked)
+		if (path->size == 1 && blocked)
 			return (NULL);
 		path_add_room(path, cur_room);
 		i++;

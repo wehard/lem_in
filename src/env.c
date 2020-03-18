@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 13:45:13 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 14:28:03 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	read_env(t_lem_env *env)
 
 	while (ft_get_next_line(0, &line) == 1)
 	{
+		if (ft_strncmp(line, "", 1) == 0)
+			break ;
 		if (env->num_ants < 0)
 			env->num_ants = ft_atoi(line);
 		else if (ft_strncmp(line, "##", 2) == 0)

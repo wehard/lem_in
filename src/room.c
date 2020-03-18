@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 00:42:51 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 14:24:11 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ void	read_room(t_lem_env *env, char *line)
 	}
 	split = ft_strsplit(line, ' ');
 	if (ft_strarray_len(split) != 3)
+	{
+		ft_printf("line: %s\n", line);
 		ft_panic("read_room: split ERROR");
+	}
 	room = new_room(split[0], ft_make_vec2(ft_atoi(split[1]), ft_atoi(split[2])));
 	if (is_start)
 		room->type = START;

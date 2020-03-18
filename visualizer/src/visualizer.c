@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 02:10:43 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/18 17:24:36 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,22 +109,39 @@ void	update_ants(t_ant *ants, t_lem_env *env, double delta_time)
 	}
 }
 
-void	update_turn(t_ant *ants, t_lem_env *env)
+void	update_turn(t_ant *ants, t_lem_env *lem_env, t_vis_env *vis_env)
 {
 	int	i;
+	t_list *cur;
 
-	i = 0;
-	while (i < env->num_ants)
+	if (vis_env->turn_index < 0)
 	{
-		//ft_printf("\nstart links\n");
-		t_list *l = ft_lstat(*ants[i].target_room->links, rand() % ft_lstsize(*ants[i].target_room->links));
-		t_room *r = ((t_link*)l->content)->r2;
-		//ft_printf("r: %s\n", r->name);
-		//ft_lstiter(*r->links, print_link);
-		ants[i].target_room = r;
-		//ft_printf("ant %d target: %.2f %.2f\n", i, ants[i].target_room->coord.x, ants[i].target_room->coord.y);
-		i++;
+		i = 0;
+		while (i < lem_env->num_ants)
+		{
+			ants[i].target_room = lem_env->start;
+			i++;
+		}
+		vis_env->turn_index++;
+		return ;
 	}
+
+	if (vis_env->turn_index < vis_env->num_turns)
+	{
+		cur = ft_lstat(*vis_env->turn_lst, vis_env->num_turns - vis_env->turn_index - 1);
+		ft_printf("turn %d: %s\n", vis_env->turn_index, (char*)cur->content);
+		char **split = ft_strsplit(cur->content, ' ');
+		i = 0;
+		while (split[i])
+		{
+			int id = ft_atoi(ft_strchr(split[i], 'L') + 1);
+			t_room *room = get_room(*lem_env->rooms, ft_strchr(split[i], '-') + 1);
+			ants[id - 1].target_room = room;
+			i++;
+		}
+
+	}
+	vis_env->turn_index++;
 }
 
 t_vis_env	*init_vis_env(const char *title)
@@ -139,16 +156,45 @@ t_vis_env	*init_vis_env(const char *title)
 		ft_printf("error initializing SDL: %s\n", SDL_GetError());
 	e->win = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, 0);
 	e->renderer = SDL_CreateRenderer(e->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
+	e->num_turns = 0;
+	e->turn_index = 0;
 	return (e);
+}
+
+void	print_turn(t_list *l)
+{
+	char *turn;
+
+	turn = (char*)l->content;
+	ft_printf("turn: %s\n", turn);
+}
+
+void read_moves(t_vis_env *vis_env)
+{
+	char *line;
+	vis_env->num_turns = 0;
+	vis_env->turn_lst = (t_list**)malloc(sizeof(t_list*));
+	*vis_env->turn_lst = NULL;
+	while (ft_get_next_line(0, &line) == 1)
+	{
+		ft_printf("line: %s\n", line);
+		t_list *l = malloc(sizeof(t_list));
+		l->content = ft_strdup(line);
+		l->content_size = ft_strlen(line);
+		l->next = NULL;
+		ft_lstadd(vis_env->turn_lst, l);
+		free(line);
+		vis_env->num_turns++;
+	}
+	ft_printf("size: %d\n", ft_lstsize(*vis_env->turn_lst));
 }
 
 int main(void)
 {
 
 	t_ant *ants;
-	t_lem_env *env;
-	t_vis_env *v_env;
+	t_lem_env *lem_env;
+	t_vis_env *vis_env;
 
 	uint64_t now = SDL_GetPerformanceCounter();
 	uint64_t last = 0;
@@ -156,16 +202,17 @@ int main(void)
 
 	srand(time(NULL));
 
-	env = init_env();
-	read_env(env);
+	lem_env = init_env();
+	read_env(lem_env);
 
-	v_env = init_vis_env("lem_in");
+
+	vis_env = init_vis_env("lem_in");
 	// ft_printf("%d\n", env->num_ants);
 	// ft_lstiter(env->rooms, print_room);
 	// ft_lstiter(env->links, print_link);
+	read_moves(vis_env);
 
-
-	ants = create_ants(env);
+	ants = create_ants(lem_env);
 	// ft_printf("start: %s %.2f %.2f\n", env->start->name, env->start->coord.x, env->start->coord.y);
 	// ft_printf("end: %s %.2f %.2f\n", env->end->name,  env->end->coord.x, env->end->coord.y);
 
@@ -187,27 +234,32 @@ int main(void)
 				if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 					quit = 1;
 				if (event.key.keysym.scancode == SDL_SCANCODE_SPACE)
-					update_turn(ants, env);
+					update_turn(ants, lem_env, vis_env);
+				if (event.key.keysym.scancode == SDL_SCANCODE_R)
+				{
+					vis_env->turn_index = -1;
+					update_turn(ants, lem_env, vis_env);
+				}
 			}
 			else if (event.type == SDL_MOUSEWHEEL)
 			{
 				if (event.wheel.y > 0)
-					v_env->zoom *= 1.1;
+					vis_env->zoom *= 1.1;
 				else if (event.wheel.y < 0)
-					v_env->zoom *= 0.9;
+					vis_env->zoom *= 0.9;
 			}
 		}
-		update_ants(ants, env, delta_time);
+		update_ants(ants, lem_env, delta_time);
 
-		SDL_SetRenderDrawColor(v_env->renderer, 255, 255, 255, 255);
-		SDL_RenderClear(v_env->renderer);
-		draw_links(*env->links, v_env->zoom, v_env->renderer);
-		draw_rooms(*env->rooms, v_env->zoom, v_env->renderer);
-		draw_ants(ants, v_env->zoom, env, v_env->renderer);
-		SDL_RenderPresent(v_env->renderer);
+		SDL_SetRenderDrawColor(vis_env->renderer, 255, 255, 255, 255);
+		SDL_RenderClear(vis_env->renderer);
+		draw_links(*lem_env->links, vis_env->zoom, vis_env->renderer);
+		draw_rooms(*lem_env->rooms, vis_env->zoom, vis_env->renderer);
+		draw_ants(ants, vis_env->zoom, lem_env, vis_env->renderer);
+		SDL_RenderPresent(vis_env->renderer);
 	}
-	SDL_DestroyWindow(v_env->win);
-	SDL_DestroyRenderer(v_env->renderer);
+	SDL_DestroyWindow(vis_env->win);
+	SDL_DestroyRenderer(vis_env->renderer);
 	SDL_Quit();
 	return (0);
 }

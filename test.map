@@ -1,23 +1,26 @@
-3
-##start
-st 23 3
+5
+1 23 3
 2 16 7
+#comment
 3 16 3
 4 16 5
 5 9 3
 6 1 5
-hell 4 8
+##start
+7 4 8
 ##end
-en 9 5
-en-4
-en-6
-st-3
+0 9 5
+0-4
+0-6
+1-3
 4-3
 5-2
 3-5
+#another comment
 4-2
-2-st
-hell-6
-hell-2
-hell-4
+2-1
+7-6
+7-2
+7-4
 6-5
+#another comment
