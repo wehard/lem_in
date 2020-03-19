@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 17:24:36 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/19 10:23:52 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,10 +178,8 @@ void read_moves(t_vis_env *vis_env)
 	while (ft_get_next_line(0, &line) == 1)
 	{
 		ft_printf("line: %s\n", line);
-		t_list *l = malloc(sizeof(t_list));
-		l->content = ft_strdup(line);
-		l->content_size = ft_strlen(line);
-		l->next = NULL;
+		t_list *l = ft_lstnew(line, ft_strlen(line) + 1);
+		ft_printf("content %s size %d\n", (char*)l->content, l->content_size);
 		ft_lstadd(vis_env->turn_lst, l);
 		free(line);
 		vis_env->num_turns++;

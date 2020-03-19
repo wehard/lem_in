@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 14:24:11 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/19 10:14:39 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	read_room(t_lem_env *env, char *line)
 		room->type = END;
 	else
 		room->type = NORMAL;
-	ft_lstappend(env->rooms, ft_lstnew(room, sizeof(t_room)));
+	ft_lstappend(env->rooms, ft_lstnewptr(room));
 	env->num_rooms++;
 }
 
