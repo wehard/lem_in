@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 16:29:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/19 17:09:06 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/19 23:59:00 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void print_matrix(int **matrix, int size)
 		c = 0;
 		while (c < size)
 		{
-			ft_putnbr(matrix[r][c]);
-			ft_putchar(' ');
+			ft_printf("%2d", matrix[r][c]);
 			c++;
 		}
 		ft_putchar('\n');

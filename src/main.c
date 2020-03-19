@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/19 18:00:11 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/20 00:09:19 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,12 @@ int main(void)
 
 	t_graph *g = create_graph(lem_env);
 
-	ft_printf("edges\n");
-	print_matrix(g->edges, g->num_nodes);
-	ft_printf("capacity\n");
-	print_matrix(g->capacity, g->num_nodes);
-	ft_printf("flow\n");
-	print_matrix(g->flow, g->num_nodes);
-
-	if (bfs(g, lem_env->start->id, lem_env->end->id))
-		ft_printf("bfs yes\n");
-
+	//ft_printf("edges\n");
+	//print_matrix(g->edges, g->num_nodes);
+	//ft_printf("capacity\n");
+	//print_matrix(g->capacity, g->num_nodes);
+	//ft_printf("flow\n");
+	//print_matrix(g->flow, g->num_nodes);
+	calc_flow(lem_env, g);
 	close_logger();
 }
