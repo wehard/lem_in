@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 12:19:28 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/19 18:20:40 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 // # define END 1
 // # define NORMAL 2
 
+# define TRUE 1
+# define FALSE 0
+
 typedef enum
 {
 	UNSET,
@@ -30,6 +33,7 @@ typedef enum
 
 typedef struct	s_room
 {
+	int			id;
 	t_room_type	type;
 	char		*name;
 	t_vec2		coord;
@@ -61,6 +65,16 @@ typedef struct	s_ant
 	t_room		*cur_room;
 }				t_ant;
 
+typedef struct	s_graph
+{
+	int			num_nodes;
+	int			num_edges;
+	int			**edges;
+	int			**capacity;
+	int			**flow;
+	t_list		**augmented_paths;
+}				t_graph;
+
 typedef struct	s_lem_env
 {
 	int			num_ants;
@@ -70,6 +84,7 @@ typedef struct	s_lem_env
 	t_list		**rooms;
 	int			num_rooms;
 	t_list		**links;
+	int			num_links;
 }				t_lem_env;
 
 t_lem_env			*init_env(void);
@@ -89,4 +104,9 @@ void			print_link(t_list *l);
 t_path			*find_path(t_lem_env *lem_env, t_room *start, t_room *end);
 t_room			*path_get_room(t_path *p, int i);
 void			path_add_room(t_path *p, t_room *room);
+
+
+t_graph			*create_graph(t_lem_env *lem_env);
+int				bfs(t_graph *g, int source_id, int sink_id);
+void			print_matrix(int **matrix, int size);
 #endif

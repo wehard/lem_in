@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:27:43 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/17 16:52:09 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/19 16:31:54 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	read_link(t_lem_env *env, char *line)
 	ft_lstappend(r1->links, ft_lstnew((void*)new_link(r1, r2), sizeof(t_link)));
 	ft_lstappend(r2->links, ft_lstnew((void*)new_link(r2, r1), sizeof(t_link)));
 	ft_lstappend(env->links, ft_lstnew((void*)new_link(r1, r2), sizeof(t_link)));
+	env->num_links++;
 }
 
 void	print_link(t_list *l)

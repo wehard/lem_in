@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/18 14:28:03 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/19 16:31:38 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_lem_env	*init_env(void)
 	env->num_rooms = 0;
 	env->start = NULL;
 	env->end = NULL;
-	env->links = malloc(sizeof(t_list*));;
+	env->links = malloc(sizeof(t_list*));
+	env->num_links = 0;
 	return (env);
 }
 

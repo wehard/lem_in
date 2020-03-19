@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/19 12:56:29 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/19 18:00:11 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,48 +41,49 @@ int move_ant(t_ant *ant, t_room *room)
 int main(void)
 {
 	init_logger("debug.log", "a+");
-	t_lem_env *env;
+	t_lem_env *lem_env;
 
-	env = init_env();
-	read_env(env);
-	env->ants = create_ants(env);
+	lem_env = init_env();
+	read_env(lem_env);
+	lem_env->ants = create_ants(lem_env);
 
-	ft_printf("%d\n", env->num_ants);
-	ft_lstiter(*env->rooms, print_room);
-	ft_lstiter(*env->links, print_link);
+	ft_printf("%d\n", lem_env->num_ants);
+	ft_lstiter(*lem_env->rooms, print_room);
+	ft_lstiter(*lem_env->links, print_link);
 	ft_printf("\n");
 
-	//t_path *p = find_path(env, env->start, env->end);
-	// if (p != NULL)
-	// {
-	// 	int i = 0;
-	// 	while (i < p->size)
-	// 	{
-	// 		if (p->rooms[i])
-	// 			ft_printf("%s > ", p->rooms[i]->name);
-	// 		i++;
-	// 	}
-	// 	ft_printf("\n");
-	// }
 	int turn  = 0;
-	while (env->end->occupied != env->num_ants)
+	while (lem_env->end->occupied != lem_env->num_ants)
 	{
 		int i = 0;
 		debug_log("\033[0;%dm", 34 + turn % 2);
-		while (i < env->num_ants)
+		while (i < lem_env->num_ants)
 		{
 			t_ant *ant;
-			ant = &env->ants[i];
-			ant->path = find_path(env, ant->cur_room, env->end);
+			ant = &lem_env->ants[i];
+			ant->path = find_path(lem_env, ant->cur_room, lem_env->end);
 			if (ant->path)
 				move_ant(ant, path_get_room(ant->path, 0));
 			i++;
 		}
 		debug_log("\033[0m");
 		ft_printf("\n");
-		if (env->end->occupied == env->num_ants)
+		if (lem_env->end->occupied == lem_env->num_ants)
 			debug_log("all ants are home!\n");
 		turn++;
 	}
+
+	t_graph *g = create_graph(lem_env);
+
+	ft_printf("edges\n");
+	print_matrix(g->edges, g->num_nodes);
+	ft_printf("capacity\n");
+	print_matrix(g->capacity, g->num_nodes);
+	ft_printf("flow\n");
+	print_matrix(g->flow, g->num_nodes);
+
+	if (bfs(g, lem_env->start->id, lem_env->end->id))
+		ft_printf("bfs yes\n");
+
 	close_logger();
 }
