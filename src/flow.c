@@ -6,12 +6,12 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 15:46:16 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/19 23:54:55 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/20 11:33:24 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "hash_table.h"
+#include "ft_hashtable.h"
 #include "queue.h"
 #include <stdlib.h>
 #include "ft_printf.h"

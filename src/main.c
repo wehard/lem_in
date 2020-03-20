@@ -6,14 +6,14 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/20 00:09:19 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/20 11:33:57 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_get_next_line.h"
 #include "ft_printf.h"
-#include "hash_table.h"
+#include "ft_hashtable.h"
 #include "queue.h"
 #include "debug.h"
 
