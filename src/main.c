@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/20 11:33:57 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/20 14:50:34 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "ft_get_next_line.h"
 #include "ft_printf.h"
 #include "ft_hashtable.h"
-#include "queue.h"
 #include "debug.h"
 
 int move_ant(t_ant *ant, t_room *room)

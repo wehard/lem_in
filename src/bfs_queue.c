@@ -6,11 +6,11 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/17 16:15:48 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/19 18:02:00 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/20 14:46:04 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "queue.h"
+#include "bfs_queue.h"
 #include "lem_in.h"
 #include "ft_printf.h"
 

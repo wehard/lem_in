@@ -6,14 +6,14 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/17 15:40:38 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/20 13:51:46 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/20 14:49:44 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include <stdlib.h> //
 #include "ft_printf.h"
-#include "queue.h"
+#include "ft_queue.h"
 #include "ft_hashtable.h"
 #include "debug.h"
 
@@ -68,14 +68,14 @@ void	bfs_calc_cost(t_lem_env *lem_env, t_room *from)
 	int		level;
 
 	visited = ft_ht_create(lem_env->num_rooms, ft_ht_hash_str, 10, 10);
-	q = create_queue(lem_env->num_rooms);
+	q = ft_queue_create(lem_env->num_rooms, sizeof(t_room*));
 	ft_ht_set(visited, from->name, "1");
-	enqueue(q, from);
+	ft_queue_enqueue(q, from);
 	level = 0;
 	from->hcost = level++;
-	while (!isempty(q))
+	while (!ft_queue_isempty(q))
 	{
-		t_room *r = dequeue(q);
+		t_room *r = ft_queue_dequeue(q);
 		t_list *n = *r->links;
 		while (n)
 		{
@@ -83,7 +83,7 @@ void	bfs_calc_cost(t_lem_env *lem_env, t_room *from)
 			if (!ft_ht_get(visited, c->name))
 			{
 				ft_ht_set(visited, c->name, "1");
-				enqueue(q, c);
+				ft_queue_enqueue(q, c);
 				c->hcost = level;
 				// ft_printf("visited: %s cost: %d\n", c->name, c->hcost);
 			}

@@ -6,13 +6,13 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 15:46:16 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/20 11:33:24 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/20 14:46:33 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_hashtable.h"
-#include "queue.h"
+#include "bfs_queue.h"
 #include <stdlib.h>
 #include "ft_printf.h"
 
