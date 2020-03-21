@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/19 16:31:38 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/21 20:04:49 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,32 @@ t_lem_env	*init_env(void)
 	env->links = malloc(sizeof(t_list*));
 	env->num_links = 0;
 	return (env);
+}
+
+void	link_del(void *link, size_t s)
+{
+	t_link *l = (t_link*)link;
+	free(l);
+	s = 0;
+}
+
+void	room_del(void *room, size_t s)
+{
+	t_room *r = (t_room*)room;
+	free(r->name);
+	ft_lstdel(r->links, link_del);
+	s = 0;
+}
+
+void	del_lem_env(t_lem_env *lem_env)
+{
+	ft_lstdel(lem_env->rooms, room_del);
+	ft_lstdel(lem_env->links, link_del);
+	free(lem_env->rooms);
+	free(lem_env->links);
+	// free ants path
+	free(lem_env->ants);
+	free(lem_env);
 }
 
 t_ant *create_ants(t_lem_env *env)

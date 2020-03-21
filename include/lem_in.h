@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/21 12:35:48 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/21 17:29:27 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_lem_env			*init_env(void);
 void			read_env(t_lem_env *env);
 t_ant			*create_ants(t_lem_env *env);
 void			ft_panic(char *err);
+void			del_lem_env(t_lem_env *lem_env);
 
 t_room			*new_room(char *name, t_vec2 coord);
 void			read_room(t_lem_env *env, char *line);

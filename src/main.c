@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/21 12:49:39 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/21 18:32:52 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int move_ant(t_ant *ant, t_room *room)
 
 int main(void)
 {
-	init_logger("debug.log", "a+");
+	//init_logger("debug.log", "a+");
 	t_lem_env *lem_env;
 
 	lem_env = init_env();
@@ -72,14 +72,15 @@ int main(void)
 		turn++;
 	} */
 
-	t_graph *g = create_graph(lem_env);
 
+	//t_graph *g = create_graph(lem_env);
 	//ft_printf("edges\n");
 	//print_matrix(g->edges, g->num_nodes);
 	//ft_printf("capacity\n");
 	//print_matrix(g->capacity, g->num_nodes);
 	//ft_printf("flow\n");
 	//print_matrix(g->flow, g->num_nodes);
-	calc_flow(lem_env, g);
-	close_logger();
+	//calc_flow(lem_env, g);
+	del_lem_env(lem_env);
+	//close_logger();
 }

@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/20 00:01:40 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/21 20:02:11 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ int		ft_strarray_len(char **arr)
 	return (i);
 }
 
+void	free_str_array(char **arr)
+{
+	int i;
+
+	i = 0;
+	while (arr[i++])
+		free(arr);
+}
+
 void	read_room(t_lem_env *env, char *line)
 {
 	int		is_start;
@@ -77,6 +86,7 @@ void	read_room(t_lem_env *env, char *line)
 			ft_panic("read_room: ERROR");
 	}
 	split = ft_strsplit(line, ' ');
+	//free(line);
 	if (ft_strarray_len(split) != 3)
 	{
 		ft_printf("line: %s\n", line);
@@ -89,9 +99,8 @@ void	read_room(t_lem_env *env, char *line)
 		room->type = END;
 	else
 		room->type = NORMAL;
-	room->id = env->num_rooms;
+	room->id = env->num_rooms++;
 	ft_lstappend(env->rooms, ft_lstnewptr(room));
-	env->num_rooms++;
 }
 
 void	print_room(t_list *l)
