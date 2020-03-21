@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 15:46:16 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/21 12:52:20 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/21 17:16:41 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,38 @@
 #include "bfs_queue.h"
 #include <stdlib.h>
 #include "ft_printf.h"
+#include "ft_queue.h"
 
 int	bfs(t_graph *g, t_ht *parent_map, int source_id, int sink_id)
 {
-	t_bfs_queue	*q;
 	int		visited[g->num_nodes];
 	int		i;
+	t_queue *q;
+
+	if (!(q = ft_queue_create(QUEUE_COPY, g->num_nodes, sizeof(int))))
+		ft_panic("queue create failed!");
 
 	i = 0;
 	while (i < g->num_nodes)
 		visited[i++] = FALSE;
-	q = bfs_queue_create(g->num_nodes);
 	visited[source_id] = TRUE;
-	bfs_queue_enqueue(q, source_id);
-	while (!bfs_queue_isempty(q))
+	ft_queue_enqueue(q, &source_id);
+	while (!ft_queue_isempty(q))
 	{
-		int id = bfs_queue_dequeue(q);
+		int id = *(int*)ft_queue_dequeue(q);
 		i = 0;
 		while (i < g->num_nodes)
 		{
 			if (!visited[i] && g->capacity[id][i] - g->flow[id][i] > 0)
 			{
-				bfs_queue_enqueue(q, i);
+				ft_queue_enqueue(q, &i);
 				visited[i] = TRUE;
 				ft_ht_set(parent_map, &i, &id);
 			}
 			i++;
 		}
 	}
-	bfs_queue_destroy(q);
+	ft_queue_destroy(q);
 	return (visited[sink_id] == TRUE);
 }
 

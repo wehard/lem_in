@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/17 15:40:38 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/20 14:49:44 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/21 17:10:31 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	bfs_calc_cost(t_lem_env *lem_env, t_room *from)
 	int		level;
 
 	visited = ft_ht_create(lem_env->num_rooms, ft_ht_hash_str, 10, 10);
-	q = ft_queue_create(lem_env->num_rooms, sizeof(t_room*));
+	q = ft_queue_create(QUEUE_REF, lem_env->num_rooms, sizeof(t_room*));
 	ft_ht_set(visited, from->name, "1");
 	ft_queue_enqueue(q, from);
 	level = 0;
