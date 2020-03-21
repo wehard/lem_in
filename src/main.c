@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/20 14:50:34 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/21 12:49:39 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int main(void)
 	read_env(lem_env);
 	lem_env->ants = create_ants(lem_env);
 
-	ft_printf("%d\n", lem_env->num_ants);
+	/* ft_printf("%d\n", lem_env->num_ants);
 	ft_lstiter(*lem_env->rooms, print_room);
 	ft_lstiter(*lem_env->links, print_link);
 	ft_printf("\n");
@@ -70,7 +70,7 @@ int main(void)
 		if (lem_env->end->occupied == lem_env->num_ants)
 			debug_log("all ants are home!\n");
 		turn++;
-	}
+	} */
 
 	t_graph *g = create_graph(lem_env);
 

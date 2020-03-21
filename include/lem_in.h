@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/19 23:13:17 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/21 12:35:48 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "vector.h"
+# include "ft_hashtable.h"
 
 // # define START 0
 // # define END 1
@@ -106,7 +107,7 @@ t_room			*path_get_room(t_path *p, int i);
 void			path_add_room(t_path *p, t_room *room);
 
 t_graph			*create_graph(t_lem_env *lem_env);
-int				bfs(t_graph *g, int *parent, int source_id, int sink_id);
+int				bfs(t_graph *g, t_ht *parent_map, int source_id, int sink_id);
 void			print_matrix(int **matrix, int size);
 void			calc_flow(t_lem_env *lem_env, t_graph *g);
 #endif
