@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:27:43 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 16:26:46 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 18:03:27 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	read_link(t_lem_env *env, char *line)
 	r1 = get_room(*env->rooms, split[0]);
 	r2 = get_room(*env->rooms, split[1]);
 	ft_free_array((void**)split);
-	ft_lstappend(r1->links, ft_lstnewptr((void*)new_link(r1, r2)));
-	ft_lstappend(r2->links, ft_lstnewptr((void*)new_link(r2, r1)));
+	// ft_lstappend(r1->links, ft_lstnewptr((void*)new_link(r1, r2)));
+	// ft_lstappend(r2->links, ft_lstnewptr((void*)new_link(r2, r1)));
 	ft_lstappend(env->links, ft_lstnewptr((void*)new_link(r1, r2)));
 	env->num_links++;
 }

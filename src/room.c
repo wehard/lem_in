@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 16:26:36 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 18:06:03 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "ft_get_next_line.h"
 #include "ft_printf.h"
+#include "debug.h"
 
 t_room *new_room(char *name, t_vec2 coord)
 {
@@ -68,6 +69,8 @@ void	read_room(t_lem_env *env, t_room_type type, char *line)
 	room->type = type;
 	room->id = env->num_rooms++;
 	ft_lstappend(env->rooms, ft_lstnewptr(room));
+	debug_log("id: %2d name: %s\n", room->id, room->name);
+
 }
 
 void	print_room(t_list *l)

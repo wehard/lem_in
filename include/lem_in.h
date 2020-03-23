@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 15:57:19 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 19:08:26 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ t_room			*path_get_room(t_path *p, int i);
 void			path_add_room(t_path *p, t_room *room);
 
 t_graph			*create_graph(t_lem_env *lem_env);
+void			destroy_graph(t_graph *g);
 int				bfs(t_graph *g, t_ht *parent_map, int source_id, int sink_id);
 void			print_matrix(int **matrix, int size);
 void			calc_flow(t_lem_env *lem_env, t_graph *g);

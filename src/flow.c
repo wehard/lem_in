@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 15:46:16 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/21 17:16:41 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 19:04:58 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	bfs(t_graph *g, t_ht *parent_map, int source_id, int sink_id)
 		{
 			if (!visited[i] && g->capacity[id][i] - g->flow[id][i] > 0)
 			{
+				if (id == 1)
+					ft_printf("neighbour %d\n", i);
 				ft_queue_enqueue(q, &i);
 				visited[i] = TRUE;
 				ft_ht_set(parent_map, &i, &id);
@@ -82,5 +84,6 @@ void	calc_flow(t_lem_env *lem_env, t_graph *g)
 		ft_printf("\n");
 		max_flow += increment;
 	}
+	ft_ht_destroy(parent_map);
 	ft_printf("max flow: %d\n", max_flow);
 }

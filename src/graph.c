@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 16:29:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/21 12:53:31 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 19:11:14 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,23 @@ t_graph *create_graph(t_lem_env *lem_env)
 		l = l->next;
 	}
 	return (g);
+}
+
+void destroy_graph(t_graph *g)
+{
+	int i;
+
+	i = 0;
+	while (i < g->num_nodes)
+	{
+		free(g->capacity[i]);
+		free(g->edges[i]);
+		free(g->flow[i]);
+		i++;
+	}
+	free(g->capacity);
+	free(g->edges);
+	free(g->flow);
+	free(g->augmented_paths); // needs to do more when we have paths
+	free(g);
 }
