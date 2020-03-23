@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/21 20:04:49 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 16:59:32 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ t_lem_env	*init_env(void)
 		ft_panic("init_env: ERROR");
 	env->num_ants = -1;
 	env->ants = NULL;
-	env->rooms = malloc(sizeof(t_list*));
+	env->rooms = (t_list**)malloc(sizeof(t_list*));
 	env->num_rooms = 0;
 	env->start = NULL;
 	env->end = NULL;
-	env->links = malloc(sizeof(t_list*));
+	env->links = (t_list**)malloc(sizeof(t_list*));
+	env->lines = (t_list**)malloc(sizeof(t_list*));
 	env->num_links = 0;
 	return (env);
 }
@@ -44,6 +45,8 @@ void	room_del(void *room, size_t s)
 	free(r->name);
 	ft_lstdel(r->links, link_del);
 	s = 0;
+	free(r->links);
+	free(room);
 }
 
 void	del_lem_env(t_lem_env *lem_env)
@@ -52,8 +55,22 @@ void	del_lem_env(t_lem_env *lem_env)
 	ft_lstdel(lem_env->links, link_del);
 	free(lem_env->rooms);
 	free(lem_env->links);
-	// free ants path
+	int i = 0;
+	while (i < lem_env->num_ants)
+	{
+		free(lem_env->ants[i].path);
+		i++;
+	}
 	free(lem_env->ants);
+	t_list *cur_line = *lem_env->lines;
+	while(cur_line)
+	{
+		char *l = (char*)cur_line->content;
+		free(l);
+		free(cur_line);
+		cur_line = cur_line->next;
+	}
+	free(lem_env->lines);
 	free(lem_env);
 }
 
@@ -97,22 +114,38 @@ static void set_start_end(t_lem_env *env)
 void	read_env(t_lem_env *env)
 {
 	char *line;
+	t_room_type type;
 
+	type = NORMAL;
+	line = NULL;
 	while (ft_get_next_line(0, &line) == 1)
 	{
-		if (ft_strncmp(line, "", 1) == 0)
-			break ;
-		if (env->num_ants < 0)
-			env->num_ants = ft_atoi(line);
-		else if (ft_strncmp(line, "##", 2) == 0)
-			read_room(env, line);
-		else if (ft_strncmp(line, "#", 1) == 0);
-			//ft_printf("comment: %s\n", line);
-		else if (ft_strchr(line, '-'))
-			read_link(env, line);
-		else
-			read_room(env, line);
+		ft_lstappend(env->lines, ft_lstnew(line, ft_strlen(line)));
 		free(line);
+	}
+	t_list *cur_line;
+	cur_line = *env->lines;
+	while(cur_line)
+	{
+		char *lst_line = (char*)(cur_line->content);
+		if (env->num_ants < 0)
+			env->num_ants = ft_atoi(lst_line);
+		else if (ft_strncmp(lst_line, "##", 2) == 0)
+		{
+			if (ft_strncmp(lst_line + 2, "start", 5) == 0)
+				type = START;
+			else if (ft_strncmp(lst_line + 2, "end", 3) == 0)
+				type = END;
+			cur_line = cur_line->next;
+			lst_line = (char*)(cur_line->content);
+			read_room(env, type, lst_line);
+		}
+		else if (ft_strncmp(lst_line, "#", 1) == 0);
+		else if (ft_strchr(lst_line, '-'))
+			read_link(env, lst_line);
+		else
+			read_room(env, NORMAL, lst_line);
+		cur_line = cur_line->next;
 	}
 	set_start_end(env);
 }

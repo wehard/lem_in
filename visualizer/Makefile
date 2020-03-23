@@ -6,7 +6,7 @@
 #    By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 13:58:13 by wkorande          #+#    #+#              #
-#    Updated: 2020/03/18 15:42:18 by wkorande         ###   ########.fr        #
+#    Updated: 2020/03/23 10:20:47 by wkorande         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,11 +40,11 @@ all: $(NAME)
 
 $(NAME):
 	make -C $(LIBFT)
-	gcc $(FLAGS) -o $(NAME) -I$(INCL) -I $(LIBFT)/includes -I../include $(SRC) -L$(LIBFT) -lft $(SDLFLAGS)
+	clang $(FLAGS) -o $(NAME) -I$(INCL) -I $(LIBFT)/includes -I../include $(SRC) -L$(LIBFT) -lft $(SDLFLAGS)
 	#gcc -g $(FLAGS) -o $(NAME) -I$(INCL) -I $(LIBFT)/includes -I../include $(SRC) -L$(LIBFT) -lft
 
 debug:
-	gcc -g $(FLAGS) -o $(NAME) -I$(INCL) -I $(LIBFT)/includes -I../include $(SRC) -L$(LIBFT) -lft $(SDLFLAGS)
+	clang -g $(FLAGS) -o $(NAME) -I$(INCL) -I $(LIBFT)/includes -I../include $(SRC) -L$(LIBFT) -lft $(SDLFLAGS)
 
 clean:
 	@echo "Removing object files ..."

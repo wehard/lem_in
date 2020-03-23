@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/21 20:02:11 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 16:26:36 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,48 +57,15 @@ int		ft_strarray_len(char **arr)
 	return (i);
 }
 
-void	free_str_array(char **arr)
+void	read_room(t_lem_env *env, t_room_type type, char *line)
 {
-	int i;
-
-	i = 0;
-	while (arr[i++])
-		free(arr);
-}
-
-void	read_room(t_lem_env *env, char *line)
-{
-	int		is_start;
-	int		is_end;
 	t_room *room;
 	char	**split;
 
-	is_start = 0;
-	is_end = 0;
-	if (ft_strncmp(line, "##", 2) == 0)
-	{
-		if (ft_strncmp(line + 2, "start", 5) == 0)
-			is_start = 1;
-		if (ft_strncmp(line + 2, "end", 3) == 0)
-			is_end = 1;
-		ft_get_next_line(0, &line);
-		if (ft_strncmp(line, "#", 1) == 0)
-			ft_panic("read_room: ERROR");
-	}
 	split = ft_strsplit(line, ' ');
-	//free(line);
-	if (ft_strarray_len(split) != 3)
-	{
-		ft_printf("line: %s\n", line);
-		ft_panic("read_room: split ERROR");
-	}
 	room = new_room(split[0], ft_make_vec2(ft_atoi(split[1]), ft_atoi(split[2])));
-	if (is_start)
-		room->type = START;
-	else if (is_end)
-		room->type = END;
-	else
-		room->type = NORMAL;
+	ft_free_array((void**)split);
+	room->type = type;
 	room->id = env->num_rooms++;
 	ft_lstappend(env->rooms, ft_lstnewptr(room));
 }
