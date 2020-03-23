@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 15:46:16 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 19:04:58 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 20:58:38 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,41 @@
 #include <stdlib.h>
 #include "ft_printf.h"
 #include "ft_queue.h"
+#include "ft_stack.h"
+
+int dfs(t_graph *g, t_ht *parent_map, int source_id, int sink_id)
+{
+	int	i;
+	int	visited[g->num_nodes];
+	t_stack *s;
+
+	s = ft_stack_create(g->num_nodes, sizeof(int));
+	i = 0;
+	while (i < g->num_nodes)
+		visited[i++] = FALSE;
+	ft_stack_push(s, &source_id);
+	while (!ft_stack_isempty(s))
+	{
+		int cur = *(int*)ft_stack_pop(s);
+		if (!visited[cur])
+			visited[cur] = TRUE;
+
+		i = 0;
+		while (i < g->num_nodes)
+		{
+			if (!visited[i] && g->capacity[cur][i] - g->flow[cur][i] > 0)
+			{
+				ft_ht_set(parent_map, &i, &cur);
+				ft_stack_push(s, &i);
+				visited[i] = TRUE;
+				if (i == sink_id)
+					return (1);
+			}
+			i++;
+		}
+	}
+	return (0);
+}
 
 int	bfs(t_graph *g, t_ht *parent_map, int source_id, int sink_id)
 {
@@ -39,8 +74,6 @@ int	bfs(t_graph *g, t_ht *parent_map, int source_id, int sink_id)
 		{
 			if (!visited[i] && g->capacity[id][i] - g->flow[id][i] > 0)
 			{
-				if (id == 1)
-					ft_printf("neighbour %d\n", i);
 				ft_queue_enqueue(q, &i);
 				visited[i] = TRUE;
 				ft_ht_set(parent_map, &i, &id);
@@ -61,7 +94,7 @@ void	calc_flow(t_lem_env *lem_env, t_graph *g)
 	int parent_id;
 
 	max_flow = 0;
-	while (bfs(g, parent_map, lem_env->start->id, lem_env->end->id))
+	while (dfs(g, parent_map, lem_env->start->id, lem_env->end->id))
 	{
 		int increment = INT32_MAX;
 		int id = lem_env->end->id;
