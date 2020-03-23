@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 20:59:11 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 22:22:58 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,14 @@ int main(void)
 	// print_matrix(g->flow, g->num_nodes);
 	calc_flow(lem_env, g);
 
+	sort_paths(*g->augmented_paths);
+	t_list *p = *g->augmented_paths;
+	while (p)
+	{
+		t_path *c = (t_path*)p->content;
+		ft_printf("path size: %d\n", c->size);
+		p = p->next;
+	}
 	destroy_graph(g);
 
 	del_lem_env(lem_env);

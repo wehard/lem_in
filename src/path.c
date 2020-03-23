@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/17 15:40:38 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/21 17:10:31 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 22:20:52 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,32 @@ t_room *path_get_room(t_path *p, int i)
 	return (NULL);
 }
 
+void	sort_paths(t_list *paths)
+{
+	t_list *cur;
+	void *tmp;
+
+	cur = paths;
+	while (cur)
+	{
+		if (cur->next)
+		{
+			int cur_size = ((t_path*)cur->content)->size;
+			int next_size = ((t_path*)cur->next->content)->size;
+			if (next_size < cur_size)
+			{
+				tmp = cur->next->content;
+				cur->next->content = cur->content;
+				cur->content = tmp;
+				cur = paths;
+			}
+		}
+		cur = cur->next;
+	}
+
+}
+
+/*
 void	bfs_calc_cost(t_lem_env *lem_env, t_room *from)
 {
 	t_ht	*visited;
@@ -134,3 +160,4 @@ t_path *find_path(t_lem_env *lem_env, t_room *start, t_room *end)
 	}
 	return (path);
 }
+*/

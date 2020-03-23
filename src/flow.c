@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 15:46:16 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 20:58:38 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 22:03:01 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,15 @@ int dfs(t_graph *g, t_ht *parent_map, int source_id, int sink_id)
 				ft_stack_push(s, &i);
 				visited[i] = TRUE;
 				if (i == sink_id)
+				{
+					ft_stack_destroy(s);
 					return (1);
+				}
 			}
 			i++;
 		}
 	}
+	ft_stack_destroy(s);
 	return (0);
 }
 
@@ -87,17 +91,18 @@ int	bfs(t_graph *g, t_ht *parent_map, int source_id, int sink_id)
 
 void	calc_flow(t_lem_env *lem_env, t_graph *g)
 {
-	int max_flow;
-	//int parent[g->num_nodes];
-	t_ht *parent_map;
-	parent_map = ft_ht_create(g->num_nodes, ft_ht_hash_int, sizeof(int), sizeof(int));
-	int parent_id;
+	t_ht	*parent_map;
+	int		parent_id;
+	int		increment;
+	int		id;
+	t_path *path;
 
-	max_flow = 0;
+	parent_map = ft_ht_create(g->num_nodes, ft_ht_hash_int, sizeof(int), sizeof(int));
 	while (dfs(g, parent_map, lem_env->start->id, lem_env->end->id))
 	{
-		int increment = INT32_MAX;
-		int id = lem_env->end->id;
+		path = path_create();
+		increment = INT32_MAX;
+		id = lem_env->end->id;
 		while (ft_ht_get(parent_map, &id))
 		{
 			parent_id = *(int*)ft_ht_get(parent_map, &id);
@@ -113,10 +118,11 @@ void	calc_flow(t_lem_env *lem_env, t_graph *g)
 			id = parent_id;
 			t_room *r = (t_room*)(ft_lstat(*lem_env->rooms, id))->content;
 			ft_printf("[%s]", r->name);
+			path_add_room(path, r);
 		}
 		ft_printf("\n");
-		max_flow += increment;
+		ft_lstappend(g->augmented_paths, ft_lstnewptr(path));
+		g->max_flow += increment;
 	}
 	ft_ht_destroy(parent_map);
-	ft_printf("max flow: %d\n", max_flow);
 }

@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 16:29:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 19:11:14 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/23 21:28:24 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_graph *create_graph(t_lem_env *lem_env)
 	g->augmented_paths = (t_list**)malloc(sizeof(t_list*));
 	g->num_nodes = lem_env->num_rooms;
 	g->num_edges = lem_env->num_links;
+	g->max_flow = 0;
 	g->edges = (int**)malloc(sizeof(int*) * g->num_nodes);
 	g->capacity = (int**)malloc(sizeof(int*) * g->num_nodes);
 	g->flow = (int**)malloc(sizeof(int*) * g->num_nodes);
