@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/19 10:23:52 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/24 12:25:21 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "ft_get_next_line.h"
 #include <stdlib.h>
 #include <time.h>
+#include "debug.h"
 
 void draw_rooms(t_list *rooms, double zoom, SDL_Renderer *renderer)
 {
@@ -128,9 +129,10 @@ void	update_turn(t_ant *ants, t_lem_env *lem_env, t_vis_env *vis_env)
 
 	if (vis_env->turn_index < vis_env->num_turns)
 	{
-		cur = ft_lstat(*vis_env->turn_lst, vis_env->num_turns - vis_env->turn_index - 1);
-		ft_printf("turn %d: %s\n", vis_env->turn_index, (char*)cur->content);
-		char **split = ft_strsplit(cur->content, ' ');
+		cur = ft_lstat(*vis_env->turn_lst, vis_env->turn_index);
+		char *line =  (char*)cur->content;
+		ft_printf("turn %d: %s\n", vis_env->turn_index, line);
+		char **split = ft_strsplit(line, ' ');
 		i = 0;
 		while (split[i])
 		{
@@ -169,7 +171,7 @@ void	print_turn(t_list *l)
 	ft_printf("turn: %s\n", turn);
 }
 
-void read_moves(t_vis_env *vis_env)
+/* void read_moves(t_vis_env *vis_env)
 {
 	char *line;
 	vis_env->num_turns = 0;
@@ -185,11 +187,34 @@ void read_moves(t_vis_env *vis_env)
 		vis_env->num_turns++;
 	}
 	ft_printf("size: %d\n", ft_lstsize(*vis_env->turn_lst));
+} */
+
+void read_turns(t_lem_env *lem_env, t_vis_env *vis_env)
+{
+	t_list *turns_begin;
+	char *line;
+	vis_env->num_turns = 0;
+	vis_env->turn_lst = (t_list**)malloc(sizeof(t_list*));
+
+	turns_begin = *lem_env->lines;
+	while (turns_begin)
+	{
+		line = (char*)turns_begin->content;
+		ft_printf("line: %s\n", line);
+		if (line[0] == 'L')
+		{
+			ft_printf("First move found!\n");
+			*vis_env->turn_lst = turns_begin;
+			vis_env->num_turns = ft_lstsize(*vis_env->turn_lst);
+			return ;
+		}
+		turns_begin = turns_begin->next;
+	}
+
 }
 
 int main(void)
 {
-
 	t_ant *ants;
 	t_lem_env *lem_env;
 	t_vis_env *vis_env;
@@ -208,7 +233,7 @@ int main(void)
 	// ft_printf("%d\n", env->num_ants);
 	// ft_lstiter(env->rooms, print_room);
 	// ft_lstiter(env->links, print_link);
-	read_moves(vis_env);
+	read_turns(lem_env, vis_env);
 
 	ants = create_ants(lem_env);
 	// ft_printf("start: %s %.2f %.2f\n", env->start->name, env->start->coord.x, env->start->coord.y);
@@ -228,7 +253,7 @@ int main(void)
 			}
 			else if (event.type == SDL_KEYDOWN)
 			{
-				ft_printf("key: %s %d\n", SDL_GetKeyName(event.key.keysym.sym), event.key.keysym.scancode);
+				// ft_printf("key: %s %d\n", SDL_GetKeyName(event.key.keysym.sym), event.key.keysym.scancode);
 				if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 					quit = 1;
 				if (event.key.keysym.scancode == SDL_SCANCODE_SPACE)

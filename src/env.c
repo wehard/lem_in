@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 17:28:34 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/24 11:40:38 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_ant *create_ants(t_lem_env *env)
 		ants[i].pos = env->start->coord;
 		ants[i].cur_room = env->start;
 		ants[i].target_room = env->start;
-		ants[i].path = malloc(sizeof(t_path));
+		ants[i].path = NULL; //malloc(sizeof(t_path));
 		i++;
 	}
 	return (ants);
@@ -111,6 +111,15 @@ static void set_start_end(t_lem_env *env)
 	}
 }
 
+static int		validate_line(char *line)
+{
+	if (!line)
+		return (0);
+	if (line[0] == '\n' || line[0] == '\0')
+		return (0);
+	return (1);
+}
+
 void	read_env(t_lem_env *env)
 {
 	char *line;
@@ -128,6 +137,8 @@ void	read_env(t_lem_env *env)
 	while(cur_line)
 	{
 		char *lst_line = (char*)(cur_line->content);
+		if (!validate_line(lst_line))
+			break;
 		if (env->num_ants < 0)
 			env->num_ants = ft_atoi(lst_line);
 		else if (ft_strncmp(lst_line, "##", 2) == 0)

@@ -6,7 +6,7 @@
 /*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 22:22:15 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/03/24 11:10:48 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void			sort_paths(t_list *paths);
 // t_path			*find_path(t_lem_env *lem_env, t_room *start, t_room *end);
 t_room			*path_get_room(t_path *p, int i);
 void			path_add_room(t_path *p, t_room *room);
+void			print_path(t_path *p);
 
 t_graph			*create_graph(t_lem_env *lem_env);
 void			destroy_graph(t_graph *g);

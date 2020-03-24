@@ -6,7 +6,7 @@
 #    By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 13:58:13 by wkorande          #+#    #+#              #
-#    Updated: 2020/03/23 10:20:47 by wkorande         ###   ########.fr        #
+#    Updated: 2020/03/24 11:29:40 by wkorande         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS = visualizer.c
 
 LEM_IN_SRCS = env.c\
 				link.c\
-				room.c
+				room.c\
 
 SRCDIR = src
 
