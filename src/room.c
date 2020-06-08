@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   room.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/24 11:30:14 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/08 15:58:02 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	read_room(t_lem_env *env, t_room_type type, char *line)
 	char	**split;
 
 	split = ft_strsplit(line, ' ');
-	room = new_room(split[0], ft_make_vec2(ft_atoi(split[1]), ft_atoi(split[2])));
+	room = new_room(ft_strdup(split[0]), ft_make_vec2(ft_atoi(split[1]), ft_atoi(split[2])));
 	ft_free_array((void**)split);
 	room->type = type;
 	room->id = env->num_rooms++;

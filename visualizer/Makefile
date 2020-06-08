@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+         #
+#    By: wkorande <willehard@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 13:58:13 by wkorande          #+#    #+#              #
-#    Updated: 2020/06/02 18:48:28 by wkorande         ###   ########.fr        #
+#    Updated: 2020/06/08 13:22:55 by wkorande         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ all: $(NAME)
 
 $(NAME):
 	make -C $(LIBFT)
-	clang $(FLAGS) -o $(NAME) -I$(INCL) -I $(LIBFT)/includes -I../include  $(SRC) -L$(LIBFT) -lft $(SDLFLAGS)
+	clang $(FLAGS) -o $(NAME) -I$(INCL) -I $(LIBFT)/includes -I../include -I /Users/wkorande/.brew/include $(SRC) -L$(LIBFT) -lft $(SDLFLAGS)
 	#gcc -g $(FLAGS) -o $(NAME) -I$(INCL) -I $(LIBFT)/includes -I../include $(SRC) -L$(LIBFT) -lft
 
 debug:

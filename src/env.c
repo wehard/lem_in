@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/24 11:40:38 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/08 17:05:45 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_lem_env	*init_env(void)
 {
 	t_lem_env *env;
 
-	if (!(env= malloc(sizeof(t_lem_env))))
+	if (!(env = malloc(sizeof(t_lem_env))))
 		ft_panic("init_env: ERROR");
 	env->num_ants = -1;
 	env->ants = NULL;
@@ -27,7 +27,7 @@ t_lem_env	*init_env(void)
 	env->start = NULL;
 	env->end = NULL;
 	env->links = (t_list**)malloc(sizeof(t_list*));
-	env->lines = (t_list**)malloc(sizeof(t_list*));
+	// env->lines = (t_list**)malloc(sizeof(t_list*));
 	env->num_links = 0;
 	return (env);
 }
@@ -62,7 +62,7 @@ void	del_lem_env(t_lem_env *lem_env)
 		i++;
 	}
 	free(lem_env->ants);
-	t_list *cur_line = *lem_env->lines;
+	t_list *cur_line = lem_env->lines;
 	while(cur_line)
 	{
 		char *l = (char*)cur_line->content;
@@ -129,11 +129,15 @@ void	read_env(t_lem_env *env)
 	line = NULL;
 	while (ft_get_next_line(0, &line) == 1)
 	{
-		ft_lstappend(env->lines, ft_lstnew(line, ft_strlen(line)));
-		free(line);
+		// ft_putstr(line);
+		if (line[0] != '\0')
+		{
+			ft_lstappend(&(env->lines), ft_lstnew(line, ft_strlen(line)));
+			free(line);
+		}
 	}
 	t_list *cur_line;
-	cur_line = *env->lines;
+	cur_line = env->lines;
 	while(cur_line)
 	{
 		char *lst_line = (char*)(cur_line->content);

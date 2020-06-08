@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/24 12:32:56 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/08 16:35:13 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,26 +62,27 @@ t_path *find_path(t_list **paths)
 
 int main(void)
 {
-	init_logger("debug.log", "a+");
+	// init_logger("debug.log", "a+");
 	t_lem_env *lem_env;
 
 	lem_env = init_env();
 	read_env(lem_env);
-	lem_env->ants = create_ants(lem_env);
+	//lem_env->ants = create_ants(lem_env);
 
-	ft_lstiter(*lem_env->lines, print_line);
-	ft_printf("\n");
+	//ft_lstiter(*lem_env->lines, print_line);
+	// ft_printf("\n");
+
+/*
 	t_graph *g = create_graph(lem_env);
 	calc_flow(lem_env, g);
 	sort_paths(*g->augmented_paths);
-	t_list *p = *g->augmented_paths;
-	while (p)
-	{
-		// t_path *c = (t_path*)p->content;
-		// print_path(c);
-		p = p->next;
-	}
-
+	// t_list *p = *g->augmented_paths;
+	// while (p)
+	// {
+	// 	// t_path *c = (t_path*)p->content;
+	// 	// print_path(c);
+	// 	p = p->next;
+	// }
 	int turn  = 0;
 	while (lem_env->end->occupied != lem_env->num_ants)
 	{
@@ -111,5 +112,6 @@ int main(void)
 	}
 	destroy_graph(g);
 	del_lem_env(lem_env);
-	close_logger();
+*/
+	// close_logger();
 }

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   link.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:27:43 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 18:03:27 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/08 15:39:01 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "libft.h"
 #include "ft_printf.h"
+#include "debug.h"
 
 t_link	*new_link(t_room *r1, t_room *r2)
 {
@@ -28,12 +29,16 @@ void	read_link(t_lem_env *env, char *line)
 {
 	t_room *r1;
 	t_room *r2;
-	char	**split;
+	// char	**split;
+	// char	*token;
 
-	split = ft_strsplit(line, '-');
-	r1 = get_room(*env->rooms, split[0]);
-	r2 = get_room(*env->rooms, split[1]);
-	ft_free_array((void**)split);
+	// token = ft_strtok(line, "-\n\0");
+	// split = ft_strsplit(line, '-');
+	r1 = get_room(*env->rooms, ft_strtok(line, "-\n\0"));
+	r2 = get_room(*env->rooms, ft_strtok(NULL, "-\n\0"));
+	if (!r1 || !r2)
+		debug_log("room null!");
+	// ft_free_array((void**)split);
 	// ft_lstappend(r1->links, ft_lstnewptr((void*)new_link(r1, r2)));
 	// ft_lstappend(r2->links, ft_lstnewptr((void*)new_link(r2, r1)));
 	ft_lstappend(env->links, ft_lstnewptr((void*)new_link(r1, r2)));
