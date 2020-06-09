@@ -6,7 +6,7 @@
 /*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/06/09 13:10:44 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/09 15:44:32 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct	s_link
 
 typedef struct	s_path
 {
-	t_list		**rooms;
+	t_list		*rooms;
 	int			size;
 }				t_path;
 
@@ -73,7 +73,7 @@ typedef struct	s_graph
 	int			**edges;
 	int			**capacity;
 	int			**flow;
-	t_list		**augmented_paths;
+	t_list		*augmented_paths;
 	int			max_flow;
 }				t_graph;
 

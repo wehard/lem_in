@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/17 15:40:38 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/24 10:59:54 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/09 15:46:53 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_path *path_create()
 {
 	t_path *p;
 
-	p = malloc(sizeof(t_path));
-	p->rooms = malloc(sizeof(t_list*));
+	p = (t_path*)malloc(sizeof(t_path));
+	p->rooms = NULL; //malloc(sizeof(t_list*));
 	p->size = 0;
 	return (p);
 }
@@ -37,10 +37,10 @@ void	path_add_room(t_path *p, t_room *room)
 {
 	t_list *l;
 
-	l = malloc(sizeof(t_list));
+	l = (t_list*)malloc(sizeof(t_list));
 	l->content = room;
 	l->content_size = sizeof(t_room*);
-	ft_lstadd(p->rooms, l);
+	ft_lstadd(&(p->rooms), l);
 	p->size++;
 }
 
@@ -50,7 +50,7 @@ t_room *path_get_room(t_path *p, int i)
 	int c;
 
 	c = 0;
-	cur = *p->rooms;
+	cur = p->rooms;
 	while (cur)
 	{
 		if (c == i)
@@ -93,7 +93,7 @@ void	print_path(t_path *p)
 	t_room *cur_room;
 
 	ft_printf("path: ");
-	cur = *p->rooms;
+	cur = p->rooms;
 	while (cur)
 	{
 		cur_room = (t_room*)cur->content;

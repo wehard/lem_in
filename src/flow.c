@@ -6,7 +6,7 @@
 /*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 15:46:16 by wkorande          #+#    #+#             */
-/*   Updated: 2020/06/09 13:22:40 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/09 15:47:20 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,17 @@ void	calc_flow(t_lem_env *lem_env, t_graph *g)
 			parent_id = *(int*)ft_ht_get(parent_map, &id);
 			g->flow[parent_id][id] += increment;
 			g->flow[id][parent_id] -= increment;
-			t_room *r = (t_room*)(ft_lstat(lem_env->rooms, id))->content;
+			t_room *r = (t_room*)((ft_lstat(lem_env->rooms, id))->content);
 			// ft_printf("[%s]", r->name);
 			path_add_room(path, r);
 			id = parent_id;
 		}
 		// ft_printf("\n");
-		ft_lstappend(g->augmented_paths, ft_lstnewptr(path));
+		t_list *n = (t_list*)malloc(sizeof(t_list));
+		n->content = path;
+		n->content_size = sizeof(void*);
+		n->next = NULL;
+		ft_lstappend(&(g->augmented_paths), n);
 		g->max_flow += increment;
 	}
 	ft_ht_destroy(parent_map);

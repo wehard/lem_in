@@ -6,7 +6,7 @@
 /*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:38:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/06/09 15:11:47 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/09 16:51:41 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_path *find_path(t_list **paths)
 	while (cur)
 	{
 		cur_path = (t_path*)cur->content;
-		first_room = (t_room*)(*cur_path->rooms)->content;
+		first_room = (t_room*)((cur_path->rooms)->content);
 		if (!first_room->occupied)
 			return (cur_path);
 		cur = cur->next;
@@ -84,45 +84,39 @@ int main(void)
 	ft_lstiter(lem_env->lines, print_line);
 	ft_printf("\n");
 
-	// print_lines(lem_env->lines);
 	t_graph *g = create_graph(lem_env);
 	calc_flow(lem_env, g);
-	// sort_paths(*(g->augmented_paths));
-	// t_list *p = *(g->augmented_paths);
-	// while (p)
-	// {
-	// 	// t_path *c = (t_path*)p->content;
-	// 	// print_path(c);
-	// 	p = p->next;
-	// }
-	// int turn  = 0;
-	// while (lem_env->end->occupied != lem_env->num_ants)
-	// {
-	// 	int i = 0;
-	// 	debug_log("\033[0;%dm", 34 + turn % 2);
-	// 	while (i < lem_env->num_ants)
-	// 	{
-	// 		t_ant *ant;
-	// 		ant = &lem_env->ants[i];
-	// 		if (!ant->path && ant->cur_room != lem_env->end)
-	// 			ant->path = find_path(g->augmented_paths);
-	// 		if (ant->path)
-	// 		{
-	// 			if (move_ant(ant, path_get_room(ant->path, ant->pi)))
-	// 			{
-	// 				ft_printf("L%d-%s ", ant->id, ant->cur_room->name);
-	// 				ant->pi++;
-	// 			}
-	// 		}
-	// 		i++;
-	// 	}
-	// 	debug_log("\033[0m");
-	// 	ft_printf("\n");
-	// 	if (lem_env->end->occupied == lem_env->num_ants)
-	// 		debug_log("all ants are home!\n");
-	// 	turn++;
-	// }
-	// destroy_graph(g);
-	// del_lem_env(lem_env);
+	sort_paths(g->augmented_paths);
+	debug_log("max flow: %d\n", g->max_flow);
+	debug_log("ants: %d\n", lem_env->num_ants);
+	int turn  = 0;
+	while (lem_env->end->occupied != lem_env->num_ants)
+	{
+		int i = 0;
+		debug_log("\033[0;%dm", 34 + turn % 2);
+		while (i < lem_env->num_ants)
+		{
+			t_ant *ant;
+			ant = &lem_env->ants[i];
+			if (!ant->path && ant->cur_room != lem_env->end)
+				ant->path = find_path(&(g->augmented_paths));
+			if (ant->path)
+			{
+				if (move_ant(ant, path_get_room(ant->path, ant->pi)))
+				{
+					ft_printf("L%d-%s ", ant->id, ant->cur_room->name);
+					ant->pi++;
+				}
+			}
+			i++;
+		}
+		debug_log("\033[0m");
+		ft_printf("\n");
+		if (lem_env->end->occupied == lem_env->num_ants)
+			debug_log("all ants are home!\n");
+		turn++;
+	}
+	destroy_graph(g);
+	del_lem_env(lem_env);
 	close_logger();
 }

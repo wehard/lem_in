@@ -6,7 +6,7 @@
 /*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/06/09 15:02:00 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/09 16:16:36 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,18 @@ void	room_del(void *room, size_t s)
 
 void	del_lem_env(t_lem_env *lem_env)
 {
+	// int i = 0;
+	// while (i < lem_env->num_ants)
+	// {
+		// if (lem_env->ants[i].path)
+			// free(lem_env->ants[i].path);
+		// i++;
+	// }
+	free(lem_env->ants);
 	ft_lstdel(&(lem_env->rooms), room_del);
 	ft_lstdel(&(lem_env->links), link_del);
 	free(lem_env->rooms);
 	free(lem_env->links);
-	int i = 0;
-	while (i < lem_env->num_ants)
-	{
-		free(lem_env->ants[i].path);
-		i++;
-	}
-	free(lem_env->ants);
 	t_list *cur_line = lem_env->lines;
 	while(cur_line)
 	{
@@ -71,7 +72,7 @@ void	del_lem_env(t_lem_env *lem_env)
 		free(cur_line);
 		cur_line = cur_line->next;
 	}
-	free(lem_env->lines);
+	// free(lem_env->lines);
 	free(lem_env);
 }
 
