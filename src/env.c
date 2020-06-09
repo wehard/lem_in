@@ -6,13 +6,14 @@
 /*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:35:31 by wkorande          #+#    #+#             */
-/*   Updated: 2020/06/08 17:05:45 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/09 15:02:00 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 #include "ft_get_next_line.h"
+#include "debug.h"
 
 t_lem_env	*init_env(void)
 {
@@ -22,12 +23,12 @@ t_lem_env	*init_env(void)
 		ft_panic("init_env: ERROR");
 	env->num_ants = -1;
 	env->ants = NULL;
-	env->rooms = (t_list**)malloc(sizeof(t_list*));
+	env->rooms = NULL; //(t_list**)malloc(sizeof(t_list*));
 	env->num_rooms = 0;
 	env->start = NULL;
 	env->end = NULL;
-	env->links = (t_list**)malloc(sizeof(t_list*));
-	// env->lines = (t_list**)malloc(sizeof(t_list*));
+	env->links = NULL; //(t_list**)malloc(sizeof(t_list*));
+	env->lines = NULL; //(t_list**)malloc(sizeof(t_list*));
 	env->num_links = 0;
 	return (env);
 }
@@ -51,8 +52,8 @@ void	room_del(void *room, size_t s)
 
 void	del_lem_env(t_lem_env *lem_env)
 {
-	ft_lstdel(lem_env->rooms, room_del);
-	ft_lstdel(lem_env->links, link_del);
+	ft_lstdel(&(lem_env->rooms), room_del);
+	ft_lstdel(&(lem_env->links), link_del);
 	free(lem_env->rooms);
 	free(lem_env->links);
 	int i = 0;
@@ -99,7 +100,7 @@ static void set_start_end(t_lem_env *env)
 	t_list *cur;
 	t_room *r;
 
-	cur = *env->rooms;
+	cur = env->rooms;
 	while (cur)
 	{
 		r = (t_room*)cur->content;
@@ -129,18 +130,20 @@ void	read_env(t_lem_env *env)
 	line = NULL;
 	while (ft_get_next_line(0, &line) == 1)
 	{
-		// ft_putstr(line);
-		if (line[0] != '\0')
-		{
-			ft_lstappend(&(env->lines), ft_lstnew(line, ft_strlen(line)));
-			free(line);
-		}
+		t_list *n = (t_list*)malloc(sizeof(t_list));
+		n->content = ft_strdup(line);
+		n->content_size = ft_strlen(n->content) + 1;
+		n->next = NULL;
+		ft_lstappend(&(env->lines), n);
+		// debug_log("%s$\n", n->content);
+		free(line);
 	}
 	t_list *cur_line;
 	cur_line = env->lines;
 	while(cur_line)
 	{
-		char *lst_line = (char*)(cur_line->content);
+		char *lst_line = ft_strdup((char*)(cur_line->content));
+		// debug_log("lst_line: %s\n", lst_line);
 		if (!validate_line(lst_line))
 			break;
 		if (env->num_ants < 0)
@@ -156,8 +159,10 @@ void	read_env(t_lem_env *env)
 			read_room(env, type, lst_line);
 		}
 		else if (ft_strncmp(lst_line, "#", 1) == 0);
-		else if (ft_strchr(lst_line, '-'))
+		else if (ft_strrchr(lst_line, '-'))
+		{
 			read_link(env, lst_line);
+		}
 		else
 			read_room(env, NORMAL, lst_line);
 		cur_line = cur_line->next;

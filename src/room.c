@@ -6,7 +6,7 @@
 /*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 11:25:01 by wkorande          #+#    #+#             */
-/*   Updated: 2020/06/08 15:58:02 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/09 13:20:05 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	read_room(t_lem_env *env, t_room_type type, char *line)
 	ft_free_array((void**)split);
 	room->type = type;
 	room->id = env->num_rooms++;
-	ft_lstappend(env->rooms, ft_lstnewptr(room));
+	ft_lstappend(&(env->rooms), ft_lstnewptr(room));
 	// debug_log("id: %2d name: %s\n", room->id, room->name);
 
 }

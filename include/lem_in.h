@@ -6,7 +6,7 @@
 /*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 12:40:56 by wkorande          #+#    #+#             */
-/*   Updated: 2020/06/08 17:03:43 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/09 13:10:44 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ typedef struct	s_lem_env
 	t_ant		*ants;
 	t_room		*start;
 	t_room		*end;
-	t_list		**rooms;
+	t_list		*rooms;
 	int			num_rooms;
-	t_list		**links;
+	t_list		*links;
 	int			num_links;
 }				t_lem_env;
 

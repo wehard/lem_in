@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/19 16:29:35 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/23 21:28:24 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/09 13:22:09 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_graph *create_graph(t_lem_env *lem_env)
 		i++;
 	}
 	t_list *l;
-	l = *lem_env->links;
+	l = lem_env->links;
 	while (l)
 	{
 		t_link *ln = (t_link*)l->content;

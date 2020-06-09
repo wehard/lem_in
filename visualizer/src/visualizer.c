@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   visualizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wkorande <wkorande@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: wkorande <willehard@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/14 10:29:19 by wkorande          #+#    #+#             */
-/*   Updated: 2020/03/24 12:25:21 by wkorande         ###   ########.fr       */
+/*   Updated: 2020/06/09 13:44:38 by wkorande         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	update_turn(t_ant *ants, t_lem_env *lem_env, t_vis_env *vis_env)
 		while (split[i])
 		{
 			int id = ft_atoi(ft_strchr(split[i], 'L') + 1);
-			t_room *room = get_room(*lem_env->rooms, ft_strchr(split[i], '-') + 1);
+			t_room *room = get_room(lem_env->rooms, ft_strchr(split[i], '-') + 1);
 			ants[id - 1].target_room = room;
 			i++;
 		}
@@ -196,7 +196,7 @@ void read_turns(t_lem_env *lem_env, t_vis_env *vis_env)
 	vis_env->num_turns = 0;
 	vis_env->turn_lst = (t_list**)malloc(sizeof(t_list*));
 
-	turns_begin = *lem_env->lines;
+	turns_begin = lem_env->lines;
 	while (turns_begin)
 	{
 		line = (char*)turns_begin->content;
@@ -276,8 +276,8 @@ int main(void)
 
 		SDL_SetRenderDrawColor(vis_env->renderer, 255, 255, 255, 255);
 		SDL_RenderClear(vis_env->renderer);
-		draw_links(*lem_env->links, vis_env->zoom, vis_env->renderer);
-		draw_rooms(*lem_env->rooms, vis_env->zoom, vis_env->renderer);
+		draw_links(lem_env->links, vis_env->zoom, vis_env->renderer);
+		draw_rooms(lem_env->rooms, vis_env->zoom, vis_env->renderer);
 		draw_ants(ants, vis_env->zoom, lem_env, vis_env->renderer);
 		SDL_RenderPresent(vis_env->renderer);
 	}
